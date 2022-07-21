@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+       <test name="AdminDisableAddressValidateDefaultBillingTest">
+             <annotations>
+                     <stories value="Address Validations"/>
+                     <title value="validate default billing address when AvaTax - Address Validation is disabled | Owner:Vaishali Dhake"/>
+                     <description value="Login as admin, validate default billing address when AvaTax - Address Validation is disabled"/>
+                     <severity value="MAJOR"/>
+                     <testCaseId value="3876908"/>
+                     <group value="avatax_address_validation"/>
+              </annotations> 
+
+              <before>
+                     <actionGroup ref="AdminLoginActionGroup" stepKey="loginToAdminPanel"/>
+
+                     <!-- disable address validation -->
+                     <actionGroup ref="AdminGoToSalesTaxConfigurationPageActionGroup" stepKey="openSalesTaxConfigurationPage"/>
+                     <actionGroup ref="AdminDisableAddressValidationActionGroup" stepKey="disableAddressValidation"/>
+
+                     <createData entity="Simple_US_Customer_Multiple_Addresses" stepKey="createCustomer"/>
+                     <!-- <createData entity="Simple_Customer_Without_Address" stepKey="createCustomer"/>  -->
+              </before>
+
+              <after>
+                     <deleteData createDataKey="createCustomer" stepKey="deleteCustomer"/>
+                     <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
+              </after> 
+              <!--Filter the customer From grid-->
+              <actionGroup ref="AdminOpenCustomersGridActionGroup" stepKey="openCustomersGridPage"/>
+              <actionGroup ref="OpenEditCustomerFromAdminActionGroup" stepKey="openEditCustomerPage">
+                     <argument name="customer" value="Simple_US_Customer_Multiple_Addresses"/>
+              </actionGroup>
+              <click selector="{{AdminEditCustomerInformationSection.addresses}}" stepKey="openAddressesTab"/>
+              <waitForPageLoad stepKey="waitForAddresses"/>
+              <conditionalClick selector="{{AdminCustomerAddressFiltersSection.clearAll}}" dependentSelector="{{AdminCustomerAddressFiltersSection.clearAll}}" visible="true" stepKey="clickOnButtonToRemoveFiltersIfPresent"/>
+              <seeElement selector="{{AdminCustomerAddressesDefaultBillingSection.addressDetails}}" stepKey="seeDefaultBillingAddressSectionBeforeChangingDefaultAddress"/>
+              <click selector="{{AdminCustomerAddressesDefaultBillingSection.editButton}}" stepKey="clickEditForDefaultBillingAddress"/>
+              <waitForPageLoad stepKey="waitForDefaultBillingAddresses"/>
+              <dontSeeElement selector="{{AvaAdminCustomerAddressesSection.validateAddress}}" stepKey="dontSeeButton"/>
+              <waitForPageLoad stepKey="waitForPageLoad"/>
+       </test>
+</tests>

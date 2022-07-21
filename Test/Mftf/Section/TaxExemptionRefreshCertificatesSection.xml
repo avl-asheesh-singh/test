@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+         <section name="TaxExemptionRefreshCertificatesSection">
+                <element name="taxInfoIframe" type="text" selector="#gencert_iframe"/>
+                <element name="taxInfoIframe2" type="text" selector="//div[@class='cert-capture-sdk-view']//iframe[@id='gencert_iframe']"/>          
+                
+                <element name="completeCtrl" type="text" selector="//div[@ng-show='!show_countdown']//h3[contains(text(),'Congratulations!')]"/>
+                <element name="refreshButton" type="button" selector="//button[contains(@data-bind,'closeModal')]"/>
+                <element name="closeBtn" type="button" selector="//aside[contains(@class,'modal-popup account-add-exemption-modal')]//div//button[@class='action-close']//span"/>
+         </section>
+</sections>

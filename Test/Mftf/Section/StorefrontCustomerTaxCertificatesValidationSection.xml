@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="StorefrontCustomerTaxCertificatesValidationSection">
+        <element name="State" type="text" selector="//div[@class='table-wrapper']//table//tbody//tr[1]//td[1]"/>
+        <element name="signedDate" type="text" selector="//div[@class='table-wrapper']//table//tbody//tr[1]//td[2]"/>
+        <element name="expirationDate" type="text" selector="//div[@class='table-wrapper']//table//tbody//tr[1]//td[3]"/>
+        <element name="Status" type="text" selector="//div[@class='table-wrapper']//table//tbody//tr[1]//td[4]"/>
+        <element name="viewCertificateLink" type="text" selector="//div[@class='table-wrapper']//table//tbody//tr[1]//td[5]/a"/>
+         <element name="deleteCertificateLink" type="text" selector="//div[@class='table-wrapper']//table//tbody//tr[1]//td[6]/a"/>
+    </section>
+</sections>

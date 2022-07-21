@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+       <test name="AdminCreateCustomerNonUsAddressTest">
+       		<annotations>
+           		<stories value="Address Validations"/>
+           		<title value="Create customer and add non US address | Owner:Vaishali Dhake"/>
+           		<description value="Login as admin and create customer and validate non US address"/>
+           		<severity value="MAJOR"/>
+           		<testCaseId value="3757274"/>
+           		<group value="avatax_address_validation"/>
+            </annotations>    
+
+            <before>
+                <actionGroup ref="AdminLoginActionGroup" stepKey="loginToAdminPanel"/>
+                <!-- enable address validation -->
+                <actionGroup ref="AdminGoToSalesTaxConfigurationPageActionGroup" stepKey="openSalesTaxConfigurationPage"/>
+                <actionGroup ref="AdminEnableAddressValidationActionGroup" stepKey="enableAddressValidation"/>
+                
+                <createData entity="Simple_Customer_Without_Address" stepKey="createCustomer"/>
+            </before>
+            <after>
+                <deleteData createDataKey="createCustomer" stepKey="deleteCustomer"/>
+                <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
+            </after>   	
+
+            <!--Filter the customer From grid-->
+            <actionGroup ref="AdminFilterCustomerByEmail" stepKey="filterTheCustomerByEmail">
+                <argument name="email" value="$$createCustomer.email$$"/>
+            </actionGroup>
+            <actionGroup ref="AdminClickFirstRowEditLinkOnCustomerGridActionGroup" stepKey="clickOnEditButton"/>
+            <click selector="{{AdminEditCustomerAddressesSection.addresses}}" stepKey="selectAddress"/>
+            <waitForPageLoad stepKey="waitForAddressPageToLoad"/>
+            <click selector="{{AdminEditCustomerAddressesSection.addNewAddress}}" stepKey="ClickOnAddNewAddressButton"/>
+            <waitForPageLoad stepKey="waitForNewAddressPageToLoad"/>
+            <fillField userInput="{{Non_US_Address.street[0]}}" selector="{{AdminCustomerAddressesSection.streetAddress}}" stepKey="fillStreet"/>
+            <selectOption selector="{{AdminCustomerAddressesSection.country}}" userInput="{{Non_US_Address.country}}" stepKey="fillCountry"/>
+            <selectOption selector="{{AdminCustomerAddressesSection.region}}" userInput="{{Non_US_Address.state}}" stepKey="fillstate"/>
+            <fillField userInput="{{Non_US_Address.city}}" selector="{{AdminCustomerAddressesSection.city}}" stepKey="fillCity"/>
+            <fillField userInput="{{Non_US_Address.postcode}}" selector="{{AdminCustomerAddressesSection.zip}}" stepKey="fillPostcode"/>
+            <fillField selector="{{AdminEditCustomerAddressesSection.phone}}" userInput="{{US_Address_CA.telephone}}" stepKey="fillPhoneNumber"/>
+            <waitForPageLoad stepKey="waitForAddressPageToLoad1"/>
+            <click selector="{{AvaAdminCustomerAddressesSection.validateAddress}}" stepKey="avaclickValidateAddressOnAddUpdateAddressForm"/>
+            <waitForPageLoad stepKey="waitForNewAddressIsCreated"/>
+            <seeElement selector="{{AvaAdminCustomerAddressesSection.validationErrorPopup}}" stepKey="seeValidationErrorPopup"/>
+            <see userInput="Address validation is not enabled for the country you selected." selector="{{AvaAdminCustomerAddressesSection.validationErrorPopup}}" stepKey="assertInvalidCountryError"/>
+       </test> 
+</tests>
+

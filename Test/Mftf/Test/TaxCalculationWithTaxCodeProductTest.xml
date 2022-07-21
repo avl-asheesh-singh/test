@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="TaxCalculationWithTaxCodeProductTest">
+        <annotations>
+            <features value="Admin set product tax class and place order"/>
+            <stories value="Configurations"/>
+            <title value="Checkout via Storefront for mapped product code | Owner:Vaishali Dhake"/>
+            <description value="Checkout via Storefront for mapped product code | Vaishali"/>
+            <severity value="MAJOR"/>
+            <testCaseId value="3874565"/>
+            <group value="avatax_configuration"/>
+        </annotations>
+        <before>
+            <createData entity="SimpleSubCategory" stepKey="createCategory"/>
+            <createData entity="CrossBorderSimpleProduct" stepKey="createSimpleProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>            
+            <createData entity="Simple_US_Cross_Border_Customer" stepKey="createCustomer"/>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
+            
+            <!-- create product tax class -->
+            <actionGroup ref="AdminAddProductTaxClassActionGroup" stepKey="addProductTaxClass"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutFromAdminAfterSetConfiguration"/>
+            <comment userInput="Adding the comment to replace CliIndexerReindexActionGroup action group ('indexer:reindex' commands) for preserving Backward Compatibility" stepKey="reindex"/>
+        </before>
+        <after>
+            <actionGroup ref="StorefrontCustomerLogoutActionGroup" stepKey="logoutStorefront"/>
+            <deleteData createDataKey="createSimpleProduct" stepKey="deleteSimpleProduct"/>
+            <deleteData createDataKey="createCategory" stepKey="deleteSimpleCategory"/>
+            <deleteData createDataKey="createCustomer" stepKey="deleteUsCustomer"/>
+            <actionGroup ref="AdminAvaTaxDeleteProductTaxClassActionGroup" stepKey="deleteProductCode">
+                <argument name="productTaxClassName" value="{{AvaProductTaxClass.class_name}}"/>
+            </actionGroup>
+        </after>
+
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="storefrontCustomerLogin">
+            <argument name="Customer" value="$$createCustomer$$"/>
+        </actionGroup>
+        <actionGroup ref="StorefrontNavigateCategoryPageActionGroup" stepKey="navigateToCategoryPage">
+            <argument name="category" value="$$createCategory$$"/>
+        </actionGroup>
+        <waitForPageLoad stepKey="waitForCatalogPageLoad"/>
+        
+        <actionGroup ref="StorefrontAddCrossBorderProductToCartActionGroup" stepKey="addProductToCart">
+            <argument name="product" value="$$createSimpleProduct$$"/>
+            <argument name="productCount" value="CONST.one"/>
+        </actionGroup>
+        <wait time="10" stepKey="waitforTenSeconds"/>
+        <actionGroup ref="GoToCheckoutFromMinicartActionGroup" stepKey="goToCheckoutFromMinicart"/>
+        <actionGroup ref="CheckoutSelectFlatRateShippingMethodActionGroup" stepKey="selectFlatRate"/>
+        <actionGroup ref="StorefrontCheckoutForwardFromShippingStepActionGroup" stepKey="goToReview"/>
+        <wait time="20" stepKey="waitforTwentySeconds"/>
+
+        <actionGroup ref="CheckoutSelectCheckMoneyOrderPaymentActionGroup" stepKey="selectCheckMoneyOrder"/>
+        <actionGroup ref="CheckoutPlaceOrderActionGroup" stepKey="clickOnPlaceOrder">
+            <argument name="orderNumberMessage" value="CONST.successCheckoutOrderNumberMessage"/>
+            <argument name="emailYouMessage" value="CONST.successCheckoutEmailYouMessage"/>
+        </actionGroup>
+
+        <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="orderNumber"/>  
+
+        <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>  
+    </test>
+</tests>

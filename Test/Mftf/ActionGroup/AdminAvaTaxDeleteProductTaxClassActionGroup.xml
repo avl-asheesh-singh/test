@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminAvaTaxDeleteProductTaxClassActionGroup">
+        <annotations>
+            <description>Goes to the Product Tax Class grid page. Filter results based on provided Product Tax Class Name. Delete Product Tax Class from grid page.</description>
+        </annotations>
+        <arguments>
+            <argument name="productTaxClassName" type="string"/>
+        </arguments>
+
+        <amOnPage url="{{AdminAvaTaxProductTaxClassPage.url}}" stepKey="goToAdminProductGroupIndexPage"/>
+        <waitForPageLoad time="30" stepKey="waitForProductTaxClassPageLoad"/>
+        <click selector="{{AdminDataGridHeaderSection.filters}}" stepKey="openFiltersSectionOnProductGroupIndexPage"/>
+        <conditionalClick selector="{{AdminDataGridHeaderSection.clearFilters}}" dependentSelector="{{AdminDataGridHeaderSection.clearFilters}}" visible="true" stepKey="cleanFiltersIfTheySet"/>
+
+        <conditionalClick selector="{{AdminProductTaxClassesGridSection.sortDecending}}" dependentSelector="{{AdminProductTaxClassesGridSection.sortDecending}}" visible="true" stepKey="sortDecending"/>
+
+        <!-- <click selector="{{AdminProductTaxClassesGridSection.sortDecending}}" stepKey="sortDecending"/> -->
+        <click selector="{{AdminProductTaxClassesGridSection.clickCreatedTaxClass}}" stepKey="selectAndClickRow"/>
+        <click selector="{{AdminProductTaxClassesGridSection.deleteTaxClass}}" stepKey="deleteTaxClassStep"/>
+        <waitForElementVisible selector="{{AdminGridConfirmActionSection.message}}" stepKey="waitForConfirmModal"/>
+        <click selector="{{AdminProductTaxClassesGridSection.clickOk}}" stepKey="clickOkToAcceptDeleteTaxClass"/>
+        <waitForPageLoad time="30" stepKey="waitForProductTaxClassPageLoad2"/>
+    </actionGroup>
+</actionGroups>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="TaxExepmptionTaxInformationPopUpActionGroup">
+        <annotations>
+            <description>Fill tax information on "Your Tax Information" popup </description>
+        </annotations>
+        <arguments>
+            <argument name="address" defaultValue="Address_CA"/>
+        </arguments>
+        
+        <!-- Fills all the tax information input feilds-->
+        <waitForPageLoad time="60" stepKey="wait5678"/>
+    
+        <waitForElementVisible selector="{{TaxExepmptionTaxInformationPopUpSection.taxInfoIframe}}" stepKey="waitForIFrame"/>
+        <switchToIFrame selector="{{TaxExepmptionTaxInformationPopUpSection.taxInfoIframe}}" stepKey="switchToIFrame"/>
+      
+        <waitForElementVisible selector="{{TaxExepmptionTaxInformationPopUpSection.name}}" stepKey="waitForNameInputBox"/>
+        <fillField stepKey="fillName" selector="{{TaxExepmptionTaxInformationPopUpSection.name}}" userInput="{{address.firstname}}"/>
+        <fillField stepKey="fillPhoneNumber" selector="{{TaxExepmptionTaxInformationPopUpSection.telephone}}" userInput="{{address.telephone}}"/>
+        <fillField stepKey="fillAddress" selector="{{TaxExepmptionTaxInformationPopUpSection.address}}" userInput="{{address.street}}"/>
+        <fillField stepKey="fillCity" selector="{{TaxExepmptionTaxInformationPopUpSection.city}}" userInput="{{address.city}}"/>  
+         
+        <click selector="{{TaxExepmptionTaxInformationPopUpSection.countrydd}}" stepKey="clickCountrydd"/>
+        <waitForElementVisible selector="{{TaxExepmptionTaxInformationPopUpSection.country}}" stepKey="waitForcountry"/> 
+        <executeJS function="jQuery('{{TaxExepmptionTaxInformationPopUpSection.country}}').click();" stepKey="jscountry"/>
+
+        <waitForElementVisible selector="{{TaxExepmptionTaxInformationPopUpSection.statedd}}" stepKey="waitClickStatedd"/> 
+        <click selector="{{TaxExepmptionTaxInformationPopUpSection.statedd}}" stepKey="clickStatedd"/>
+        <waitForElementVisible selector="{{TaxExepmptionTaxInformationPopUpSection.state}}" stepKey="waitForstate"/> 
+        <executeJS function="jQuery('{{TaxExepmptionTaxInformationPopUpSection.state}}').click();" stepKey="jsState"/>
+       
+        <waitForElementVisible selector="{{TaxExepmptionTaxInformationPopUpSection.zip}}" stepKey="waitForzip"/> 
+        <fillField stepKey="fillZip" selector="{{TaxExepmptionTaxInformationPopUpSection.zip}}" userInput="{{address.postcode}}"/>
+
+        <!-- Clicks on Save and Continue button-->
+        <waitForElementVisible selector="{{TaxExepmptionTaxInformationPopUpSection.saveAndContinueBtn}}" stepKey="waitForSaveAndContinueBtn"/>
+        <click selector="{{TaxExepmptionTaxInformationPopUpSection.saveAndContinueBtn}}" stepKey="clickSaveAndContinue"/>
+       
+    </actionGroup>
+</actionGroups>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontCustomerAddressFirstLineThirtyCharsTest">
+        <annotations>
+            <features value="Customer Address Validation : First line of address with more than 30 chars"/>
+            <stories value="Customer Address Validation : First line of address with more than 30 chars"/>
+            <title value="Customer Address Validation for Invalid Address"/>
+            <description value="Should be able to validate address as a customer.  | Owner: Abhilash"/>
+            <severity value="MINOR"/>
+            <testCaseId value=""/>
+            <group value="checkout"/>
+        </annotations>
+        <before>
+            <createData entity="Simple_US_Customer_Multiple_Addresses" stepKey="createCustomer"/>
+        </before>
+        <after>
+            <deleteData createDataKey="createCustomer" stepKey="DeleteCustomer"/>
+        </after>
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="signUp">
+            <argument name="Customer" value="$$createCustomer$$"/>
+        </actionGroup>
+         <actionGroup ref="StorefrontAddCustomerDefaultAddressActionGroup" stepKey="AddNewDefaultAddress">
+            <argument name="Address" value="SalesTaxFirstLineThirtyChars"/>
+        </actionGroup>
+        <see userInput="{{SalesTaxFirstLineThirtyChars.street[0]}}" selector="{{StorefrontCustomerAddressesSection.defaultBillingAddress}}" stepKey="checkNewAddressesStreetOnDefaultBilling"/>
+        <see userInput="{{SalesTaxFirstLineThirtyChars.city}}" selector="{{StorefrontCustomerAddressesSection.defaultBillingAddress}}" stepKey="checkNewAddressesCityOnDefaultBilling"/>
+        <see userInput="{{SalesTaxFirstLineThirtyChars.postcode}}" selector="{{StorefrontCustomerAddressesSection.defaultBillingAddress}}" stepKey="checkNewAddressesPostcodeOnDefaultBilling"/>
+        <see userInput="{{SalesTaxFirstLineThirtyChars.street[0]}}" selector="{{StorefrontCustomerAddressesSection.defaultShippingAddress}}" stepKey="checkNewAddressesStreetOnDefaultShipping"/>
+        <see userInput="{{SalesTaxFirstLineThirtyChars.city}}" selector="{{StorefrontCustomerAddressesSection.defaultShippingAddress}}" stepKey="checkNewAddressesCityOnDefaultShipping"/>
+        <see userInput="{{SalesTaxFirstLineThirtyChars.postcode}}" selector="{{StorefrontCustomerAddressesSection.defaultShippingAddress}}" stepKey="checkNewAddressesPostcodeOnDefaultShipping"/>
+        <!-- <actionGroup ref="StorefrontAddAddressActionGroup" stepKey="addSalesTaxProductToCat"/>        </actionGroup> -->
+    </test>
+</tests>

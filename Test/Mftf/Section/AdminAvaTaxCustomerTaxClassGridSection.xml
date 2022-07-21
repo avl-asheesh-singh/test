@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="AdminAvaTaxCustomerTaxClassGridSection">
+        <element name="createNewTaxClass" type="button" selector="#add" timeout="30"/>
+        <element name="className" type="text" selector="#class_name"/>
+        <element name="taxCode" type="button" selector="#avatax_code"/>
+        <element name="saveTaxClass" type="button" selector="#save" timeout="30"/>
+        <element name="sortDecending" type="button" selector="//th[contains(@class, '_ascend') and descendant::span[contains(text(),'ID')]]" timeout="30"/>
+        <element name="clickCreatedTaxClass" type="button" selector="//div[contains(@class, 'data-grid-cell-content') and text() = 'TestTaxClass']/parent::td" timeout="30"/>
+        <element name="deleteTaxClass" type="button" selector="#delete" timeout="30"/>
+        <element name="clickOk" type="button" selector=".action-accept" timeout="30"/>
+    </section>
+</sections>

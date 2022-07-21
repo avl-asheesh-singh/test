@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Avalara, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  * @author Asheesh Singh
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontApplyGiftCardProductTest">
+        <annotations>
+            <stories value="Verify valid gift card code to take effect while placing order"/>
+            <title value="Verify valid gift card code to take effect while placing order"/>
+            <description value="Verify valid gift card code to take effect while placing order | By Asheesh Singh"/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="C3891427"/>
+            <group value="sales"/>
+            <group value="mtf_migrated"/>
+        </annotations>
+        <before>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="LoginAsAdmin"/>
+
+            <createData entity="ApiCategory" stepKey="createCategory"/>
+
+            <createData entity="AvaTaxSimpleProduct" stepKey="createSimpleProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+
+            <!-- Create Customer Account -->
+            <createData entity="Simple_US_Customer" stepKey="createCustomer"/>
+
+            <!-- Create Gift Card Account with Balance = 1 -->
+            <amOnPage url="{{AdminStoresConfigurationGiftCardAccountGeneralSettingsPage.url}}" stepKey="amOnGiftCardAccountGeneralSettingsPage"/>
+
+            <!--  Hit Generate to generate a new pool of gift card accounts -->
+            <click selector="{{AdminGiftCardAccountGeneralSettingsSection.generate}}" stepKey="clickGenerateNewCodePoolButton"/>
+            <waitForElementVisible selector="{{AdminConfirmationModalSection.ok}}" stepKey="waitPopupAppears"/>
+            <click selector="{{AdminConfirmationModalSection.ok}}" stepKey="acceptPopup"/>
+            <waitForElementVisible selector="{{AdminMessagesSection.success}}" time="60" stepKey="waitCodePoolGeneratedSuccessMessage"/>
+            <see selector="{{AdminMessagesSection.success}}" userInput="New code pool was generated." stepKey="seeSuccessMessage"/>
+
+            <!--  Marketing>Gift Card accounts> Gift Account grid, click Add gift card account -->
+            <actionGroup ref="AddGiftCardAccountActionGroup" stepKey="addGiftCardAccount">
+                <argument name="website" value="Main Website" />
+                <argument name="balanceAmount" value="1" />
+            </actionGroup>
+            <grabTextFrom selector="{{AdminGiftCardAccountGridSection.giftCardCode}}" stepKey="grabGiftCardCode"/>
+            <grabTextFrom selector="{{AdminGiftCardAccountGridSection.giftCardBalance}}" stepKey="grabGiftCardBalance"/>
+
+            <!-- Create Gift Cart Product -->
+            <amOnPage url="{{AdminProductIndexPage.url}}" stepKey="navigateToCatalogProductGrid"/>
+            <waitForPageLoad stepKey="waitForCatalogProductGrid"/>
+            <actionGroup ref="GoToSpecifiedCreateProductPageActionGroup" stepKey="openProductFillForm">
+                <argument name="productType" value="giftcard"/>
+            </actionGroup>
+            <actionGroup ref="AdminFillGiftCardProductFieldsActionGroup" stepKey="fillGiftCardProductFields">
+                <argument name="product" value="VirtualGiftCard120_150"/>
+            </actionGroup>
+            <grabValueFrom selector="{{AdminProductFormSection.productSku}}" stepKey="grabSKU"/>
+            <actionGroup ref="addGiftCardAmount" stepKey="addFirstAmountToGiftCard">
+                <argument name="giftCardAmount" value="VirtualGiftCard120_150.amounts[0]"/>
+            </actionGroup>
+            <actionGroup ref="addGiftCardAmount" stepKey="addSecondAmountToGiftCard">
+                <argument name="giftCardAmount" value="VirtualGiftCard120_150.amounts[1]"/>
+            </actionGroup>
+            <searchAndMultiSelectOption selector="{{AdminProductFormSection.categoriesDropdown}}" parameterArray="[$$createCategory.name$$]" stepKey="fillCategory"/>
+            <actionGroup ref="SaveProductFormActionGroup" stepKey="saveProduct"/>
+
+            <!-- Place order with options according to dataset -->
+            <actionGroup ref="NavigateToNewOrderPageExistingCustomerActionGroup" stepKey="newOrder">
+                <argument name="customer" value="$$createCustomer$$"/>
+            </actionGroup>
+
+            <!-- Add Product -->
+            <actionGroup ref="AdminFilterProductInCreateOrderActionGroup" stepKey="filterProduct">
+                <argument name="productSKU" value="{$grabSKU}"/>
+            </actionGroup>
+            <actionGroup ref="AdminAddGiftCardProductToOrderActionGroup" stepKey="addProduct">
+                <argument name="customer" value="$$createCustomer$$"/>
+                <argument name="orderData" value="GiftCartOrderData"/>
+            </actionGroup>
+
+            <!-- Add Gift Code -->
+            <actionGroup ref="AdminAddToOrderGiftCardCodeActionGroup" stepKey="addGode">
+                <argument name="giftCard" value="{$grabGiftCardCode}"/>
+            </actionGroup>
+
+            <actionGroup ref="FillOrderCustomerInformationActionGroup" stepKey="fillOrder">
+                <argument name="customer" value="$$createCustomer$$"/>
+                <argument name="address" value="US_Address_TX"/>
+            </actionGroup>
+        </before>
+        <after>
+            <actionGroup ref="StorefrontCustomerLogoutActionGroup" stepKey="logoutStorefront"/>
+            <deleteData createDataKey="createSimpleProduct" stepKey="deleteSimpleProduct"/>
+            <deleteData createDataKey="createCategory" stepKey="deleteCategory"/>
+            <deleteData createDataKey="createCustomer" stepKey="deleteCustomer"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
+        </after>
+        <actionGroup ref="AdminSubmitOrderActionGroup" stepKey="submitOrder"/>
+
+        <grabTextFrom selector="|Order # (\d+)|" stepKey="getOrderId"/>
+        <assertNotEmpty stepKey="assertOrderIdIsNotEmpty">
+			<actualResult type="const">$getOrderId</actualResult>
+        </assertNotEmpty>
+
+        <!-- <actionGroup ref="LoginToStorefrontActionGroup" stepKey="storefrontCustomerLogin">
+            <argument name="Customer" value="$$createCustomer$$"/>
+        </actionGroup>
+       -->
+        <!-- Go to Storefront as Login and add simple product to cart -->
+        <actionGroup ref="AddSimpleProductToCartActionGroup" stepKey="addProductToCart">
+            <argument name="product" value="$createSimpleProduct$"/>
+        </actionGroup>
+
+        <!-- Go to Checkout -->
+        <actionGroup ref="GoToCheckoutFromMinicartActionGroup" stepKey="goToCheckoutFromMinicart"/>
+
+        <!-- Fill all required fields with valid data and select Flat Rate, price = 5, shipping -->
+        <actionGroup ref="SalesTaxGuestCheckoutFillingShippingSectionActionGroup" stepKey="guestCheckoutFillingShipping">
+            <argument name="shippingMethod" value="Flat Rate"/>
+        </actionGroup>
+
+        <actionGroup ref="ApplyGiftCardToOrderActionGroup" stepKey="applyGiftCardToOrder">
+            <argument name="code" value="{$grabGiftCardCode}"/>
+        </actionGroup>
+
+        <!-- Select payment solution -->
+        <actionGroup ref="CheckoutSelectCheckMoneyOrderPaymentActionGroup" stepKey="clickCheckMoneyOrderPayment"/>
+
+        <!-- Place Order: order is successfully placed -->
+        <actionGroup ref="ClickPlaceOrderActionGroup" stepKey="clickPlaceOrder"/>
+        <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber}}" stepKey="grabOrderNumber"/>
+
+        <!-- Verify total on order page -->
+        <actionGroup ref="FilterOrderGridByIdActionGroup" stepKey="filterOrderById">
+            <argument name="orderId" value="{$grabOrderNumber}"/>
+        </actionGroup>
+
+        <actionGroup ref="AdminOrderGridClickFirstRowActionGroup" stepKey="clickOrderRow"/>
+        <scrollTo selector="{{AdminOrderTotalSection.grandTotal}}" stepKey="scrollToOrderTotalSection"/>
+
+    </test>
+</tests>

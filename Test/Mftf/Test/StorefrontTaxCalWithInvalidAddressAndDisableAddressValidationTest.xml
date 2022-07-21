@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontTaxCalWithInvalidAddressAndDisableAddressValidationTest">
+    	<annotations>
+            <stories value="Address Validations"/>
+            <title value="Tax calculation with address validation disabled and invalid address | Owner:Vaishali Dhake"/>
+            <description value="Place order on Store Front with manually filled billing address state and selected shipping address state. Check that billing address show correct state on Admin Order View page"/>
+            <severity value="MAJOR"/>
+            <testCaseId value="3842213"/>
+            <group value="avatax_address_validation"/>
+        </annotations>
+        <before>
+            <!-- Admin login -->
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdminaa"/>
+
+            <!-- disable address validation -->
+            <actionGroup ref="AdminGoToSalesTaxConfigurationPageActionGroup" stepKey="openSalesTaxConfigurationPage"/>
+            <actionGroup ref="AdminDisableAddressValidationActionGroup" stepKey="disableAddressValidation"/>
+
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+            <createData entity="ApiSimpleProduct" stepKey="createProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+
+            <comment userInput="Adding the comment to replace CliIndexerReindexActionGroup action group ('indexer:reindex' commands) for preserving Backward Compatibility" stepKey="reindex"/>
+            <comment userInput="Adding the comment to replace CliCacheFlushActionGroup action group ('cache:flush' command) for preserving Backward Compatibility" stepKey="flushCache"/>
+        </before>
+        <after>
+            <deleteData createDataKey="createCategory" stepKey="deleteCategory"/>
+            <deleteData createDataKey="createProduct" stepKey="deleteProduct"/>
+        </after>
+        <amOnPage url="{{StorefrontCategoryPage.url($$createCategory.custom_attributes[url_key]$$)}}" stepKey="onCategoryPage"/>
+        <waitForPageLoad stepKey="waitForPageLoad1"/>
+        <actionGroup ref="StorefrontHoverProductOnCategoryPageActionGroup" stepKey="hoverProduct"/>
+        <actionGroup ref="StorefrontClickAddToCartButtonActionGroup" stepKey="addToCart"/>
+        <waitForPageLoad stepKey="waitForPageLoad"/>
+        <waitForElementVisible selector="{{StorefrontCategoryMainSection.SuccessMsg}}" time="30" stepKey="waitForProductAdded"/>
+        <see selector="{{StorefrontMinicartSection.quantity}}" userInput="1" stepKey="seeCartQuantity"/>
+        <actionGroup ref="GoToCheckoutFromMinicartActionGroup" stepKey="guestGoToCheckoutFromMinicart"/>
+
+        <actionGroup ref="StorefrontFillGuestShippingInfoActionGroup" stepKey="guestCheckoutFillingShippingSection">
+        </actionGroup>
+
+        <selectOption selector="{{CheckoutShippingGuestInfoSection.country}}" userInput="United Kingdom" stepKey="changeCountryField"/>
+        <fillField selector="{{CheckoutShippingGuestInfoSection.regionInput}}" userInput="" stepKey="changeStateProvinceField"/>
+        <fillField selector="{{CheckoutShippingGuestInfoSection.postcode}}" userInput="KW1 7NQ" stepKey="changeZipPostalCodeField"/>
+        <waitForElement selector="{{CheckoutShippingSection.next}}" time="30" stepKey="waitForNextButton"/>
+        <actionGroup ref="StorefrontCheckoutClickNextOnShippingStepActionGroup" stepKey="clickNext"/>
+        <waitForElement selector="{{CheckoutPaymentSection.paymentSectionTitle}}" time="30" stepKey="waitForPaymentSectionLoaded"/>
+
+        <!-- see and address suggetion should not be available -->
+        <dontSeeElement selector="{{SalesTaxConfigSection.AvataxAddressValidationLi}}" stepKey="dontSeeAddressDiv" />
+        
+        <!-- check tax should not be displayed in order summary -->
+        <dontSeeElement selector="{{SalesTaxConfigSection.AvataxAmount}}" stepKey="dontSeeTaxAmount" />
+        <waitForPageLoad stepKey="waitForPageLoad2"/>
+    </test>
+</tests>
