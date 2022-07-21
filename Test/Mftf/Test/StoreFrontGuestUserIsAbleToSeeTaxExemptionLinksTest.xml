@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StoreFrontGuestUserIsAbleToSeeTaxExemptionLinks">
+        <annotations>
+            <features value="Guest User-Verify that user is able to see two links on the Checkout page and can't create Tax Certificate"/>
+            <stories value="Tax Exemptions"/>
+            <title value="Guest User-Verify that user is able to see two links on the Checkout page and can't create Tax Certificate"/>
+            <description value="CONNECT-41707, CONNECT-41642 - Guest User-Verify that user is able to see two links on the Checkout page and can't create Tax Certificate"/>
+            <severity value="MINOR"/>
+            <testCaseId value="C3890663"/>
+            <group value="avatax_tax_exemption"/>
+        </annotations>
+        <before>
+            <!-- Create simple product -->
+            <createData entity="SalesTaxDefaultCategory" stepKey="createCategory"/>
+            <createData entity="SalesTaxSimpleProduct" stepKey="createProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+
+            <!-- Create cart price rule -->
+            <createData entity="ActiveSalesRuleForNotLoggedIn" stepKey="createCartPriceRule"/>
+            <createData entity="SimpleSalesRuleCoupon" stepKey="createCouponForCartPriceRule">
+                <requiredEntity createDataKey="createCartPriceRule"/>
+            </createData>
+
+            <!-- Login as admin -->
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
+        </before>
+        <after>
+            <!-- Delete simple product -->
+            <deleteData createDataKey="createProduct" stepKey="deleteProduct"/>
+            <!-- Delete sales rule -->
+            <deleteData createDataKey="createCartPriceRule" stepKey="deleteCartPriceRule"/>
+            <actionGroup ref="AdminOrdersGridClearFiltersActionGroup" stepKey="clearOrderFilters"/>
+            <!-- Admin log out -->
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
+        </after>
+
+        <!-- Go to Storefront as Guest and add simple product to cart -->
+        <actionGroup ref="AddSimpleProductToCartActionGroup" stepKey="addProductToCart">
+            <argument name="product" value="$createProduct$"/>
+        </actionGroup>
+
+        <!-- Go to Checkout -->
+        <actionGroup ref="GoToCheckoutFromMinicartActionGroup" stepKey="goToCheckoutFromMinicart"/>
+
+        <!-- Fill all required fields with valid data and select Flat Rate, price = 5, shipping -->
+        <actionGroup ref="SalesTaxGuestCheckoutFillingShippingSectionActionGroup" stepKey="guestCheckoutFillingShipping">
+            <argument name="shippingMethod" value="Flat Rate"/>
+        </actionGroup>
+
+        <!-- Select payment solution -->
+        <actionGroup ref="CheckoutSelectCheckMoneyOrderPaymentActionGroup" stepKey="clickCheckMoneyOrderPayment"/>
+
+        <!-- Verify that there is no hyperlink tag on the page with the text "Manage existing certificates". -->
+        <dontSeeLink userInput="Manage existing certificates" stepKey="dontSeeLinkManageExistingCertificates"/>
+
+        <!-- Place Order: order is successfully placed -->
+        <actionGroup ref="ClickPlaceOrderActionGroup" stepKey="clickPlaceOrder"/>
+        <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber}}" stepKey="grabOrderNumber"/>
+
+        <!-- Verify total on order page -->
+        <actionGroup ref="FilterOrderGridByIdActionGroup" stepKey="filterOrderById">
+            <argument name="orderId" value="{$grabOrderNumber}"/>
+        </actionGroup>
+
+        <actionGroup ref="AdminOrderGridClickFirstRowActionGroup" stepKey="clickOrderRow"/>
+        <scrollTo selector="{{AdminOrderTotalSection.grandTotal}}" stepKey="scrollToOrderTotalSection"/>
+    </test>
+</tests>

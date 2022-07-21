@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataProfileSchema.xsd">
+        <entity name="SalesTaxDefaultCategory" type="category">
+            <data key="name" unique="suffix">SalestaxCategory</data>
+            <data key="name_lwr" unique="suffix">salestaxcategory</data>
+            <data key="urlKey" unique="suffix">salestaxcategory</data>
+            <data key="is_active">true</data>
+        </entity>
+</entities>

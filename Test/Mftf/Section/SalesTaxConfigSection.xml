@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="SalesTaxConfigSection">
+        <element name="AvaTaxAddressValidationOptions" type="button" selector="#tax_avatax_address_validation-head" timeout="60"/>
+        <element name="CheckIfTabExpand" type="button" selector="#tax_avatax_address_validation-head:not(.open)"/>
+        <element name="EnableAddressValidation" type="button" selector="#tax_avatax_address_validation_address_validation_enabled"/>
+        <element name="Save" type="button" selector="#save" timeout="30"/>
+        <element name="StoreConfigurationPageSuccessMessage" type="text" selector="#messages [data-ui-id='messages-message-success']"/>
+        <element name="AvaTaxGeneralOptions" type="button" selector="#tax_avatax_general-head" timeout="60"/>
+        <element name="AvaTaxGeneralCheckIfTabExpand" type="button" selector="#tax_avatax_general-head:not(.open)"/>
+        <element name="EnableAvaTax" type="button" selector="#tax_avatax_general_enabled"/>
+        <element name="EnableTaxMode" type="button" selector="#tax_avatax_general_tax_mode"/>
+        <element name="EnableCommitSubmittedTransactions" type="button" selector="#tax_avatax_general_commit_submitted_transactions"/>
+        <element name="AvataxAddressValidationLi" type="text" selector="#validate_address"/>
+        <element name="AvataxAmount" type="text" selector="//table[@class='data table table-totals'and .//tr[@class='totals-tax']]"/>
+        <!-- Add selector AvaTax - Document Management-->
+        <element name="AvaTaxDocManagmentOptions" type="button" selector="#tax_avatax_document_management-head" timeout="60"/>
+        <element name="CheckIfDocManagmentTabExpand" type="button" selector="#tax_avatax_document_management-head:not(.open)"/>
+        <element name="EnableDocumentManagement" type="button" selector="#tax_avatax_document_management_enabled"/>
+    </section>
+</sections>

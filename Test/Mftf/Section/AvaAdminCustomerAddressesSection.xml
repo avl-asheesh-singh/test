@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="AvaAdminCustomerAddressesSection">
+            <element name="validateAddress" type="button" selector="//button[@class='validateButton avataxValidateAddressButton']"/>
+            <element name="avaaddress" type="text" selector="//form[@id='co-validate-form']"/>
+            <element name="validationErrorPopup" type="text" selector="//aside[@class='modal-popup confirm                                 _show']" />
+    </section>
+</sections>

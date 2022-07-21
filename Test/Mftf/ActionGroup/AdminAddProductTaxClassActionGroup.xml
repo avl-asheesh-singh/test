@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminAddProductTaxClassActionGroup">
+        <annotations>
+            <description>Add new product tax class</description>
+        </annotations>
+        <amOnPage url="{{AdminAvaTaxProductTaxClassPage.url}}" stepKey="goToAvataxProductClassPage"/>
+        <click selector="{{AdminProductTaxClassesGridSection.createNewProductTaxClass}}" stepKey="clickCreateNewProductTaxClassButton"/>
+        <waitForPageLoad stepKey="waitForCreateNewProductTaxClassForm"/>
+        
+        <fillField userInput="{{AvaProductTaxClass.class_name}}" selector="{{AdminProductTaxClassesGridSection.classNameForProductClassTax}}" stepKey="fillClassName"/>
+        <fillField userInput="{{AvaProductTaxClass.avatax_code}}" selector="{{AdminProductTaxClassesGridSection.avataxCodeForProductClassTax}}" stepKey="fillTaxCode"/>        
+        <click selector="{{AdminProductTaxClassesGridSection.saveTaxClass}}" stepKey="avaclickSaveTaxClassForm"/>
+        <wait time="20" stepKey="waitTwentySeconds"/>        
+    </actionGroup>
+</actionGroups>

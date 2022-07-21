@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminAddressValidationSettingEnableTest">
+        <before>
+            <!-- Admin login -->
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
+        </before>
+        <annotations>
+            <features value="Address Validation Enable Test"/>
+            <stories value="Enable address validation"/>
+            <title value="Enable address validation"/>
+            <description value="This test will enable address validation setting."/>
+            <severity value="MAJOR"/>
+            <testCaseId value=""/>
+            <useCaseId value=""/>
+        </annotations>
+
+        <actionGroup ref="AdminGoToSalesTaxConfigurationPageActionGroup" stepKey="openSalesTaxConfigurationPage"/>
+        <waitForPageLoad stepKey="wait1"/>
+        <conditionalClick stepKey="expandAvaTaxAddressValidationOptions" selector="{{SalesTaxConfigSection.AvaTaxAddressValidationOptions}}" dependentSelector="{{SalesTaxConfigSection.CheckIfTabExpand}}" visible="true" />
+        <waitForElementVisible selector="{{SalesTaxConfigSection.EnableAddressValidation}}" stepKey="waitForEnableAddressValidationDropdown1" />
+        <selectOption selector="{{SalesTaxConfigSection.EnableAddressValidation}}" userInput="Yes" stepKey="selectOption1"/>
+        <click selector="{{SalesTaxConfigSection.AvaTaxAddressValidationOptions}}" stepKey="collapseAddressValidationOptions" />
+        <click selector="{{SalesTaxConfigSection.Save}}" stepKey="saveConfig" />
+        <actionGroup ref="CliCacheCleanActionGroup" stepKey="cleanCache">
+            <argument name="tags" value="config full_page"/>
+        </actionGroup>
+    </test>
+</tests>

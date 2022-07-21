@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="AdminProductTaxClassesGridSection">
+        <element name="createNewProductTaxClass" type="button" selector="//span[text()='Create New Tax Class']"/>
+        <element name="classNameForProductClassTax" type="input" selector="#class_name"/>
+        <element name="saveTaxClass" type="button" selector="//button[@title='Save Tax Class']"/>
+        <element name="avataxCodeForProductClassTax" type="input" selector="#avatax_code"/> 
+        <element name="spinner" type="button" selector=".spinner"/>
+        <element name="filter" type="button" selector="#container > div > div.admin__data-grid-header > div:nth-child(1) > div.data-grid-filters-actions-wrap > div > button"/>
+        <element name="firstRow" type="button" selector="tr.data-row:nth-of-type(1)"/>
+        <element name="clearFilters" type="button" selector="button.action-clear" timeout="30"/>
+        <element name="selectCheckbox" type="button" selector=".data-grid-checkbox-cell-inner" timeout="30"/>
+        <element name="productTaxClass" type="text" selector="table.data-grid.data-grid-draggable td:nth-child(10)" timeout="30"/>
+        <element name="sortDecending" type="button" selector="//th[contains(@class, '_ascend') and descendant::span[contains(text(),'ID')]]" timeout="30"/>
+        <element name="clickCreatedTaxClass" type="button" selector="//div[contains(@class, 'data-grid-cell-content') and text() = 'TestProductTaxClass']/parent::td" timeout="30"/>
+        <element name="deleteTaxClass" type="button" selector="#delete" timeout="30"/>
+        <element name="clickOk" type="button" selector=".action-accept" timeout="30"/>
+    </section>
+</sections>

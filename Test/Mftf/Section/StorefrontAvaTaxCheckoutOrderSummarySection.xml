@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="StorefrontAvaTaxCheckoutOrderSummarySection">
+        <element name="Tax" type="text" selector=".totals-tax"/>
+        <element name="newCertText" type="text" selector="//div[@class='opc-block-summary']//table[contains(@class,'table-totals')]//tbody//tr[contains(@class,'certificate-links')]//a[contains(@data-bind,'newCertText')]"/>
+        <element name="manageCertsText" type="text" selector="//div[@class='opc-block-summary']//table[contains(@class,'table-totals')]//tbody//tr[contains(@class,'certificate-links')]//a[contains(@data-bind,'manageCertsText')]"/>
+        <element name="taxCertSuccessMessage" type="text" selector="//div[@class='opc-block-summary']//table[contains(@class,'table-totals')]//tr[contains(@class,'certificate-links')]//div[contains(@class,'message-success')]"/>
+        <element name="taxCertSuccessMessage1" type="text" selector=".opc-block-summary .table-totals tbody .certificate-links .mark .message-success"/>
+        <element name="applyCertificate" type="button" selector=".apply_certificate a"/>
+        <element name="blockSummary" type="text" selector=".opc-block-summary"/>
+        <element name="blockSummary1" type="text" selector="/html/body/div[3]/main/div[2]/div/div[2]/aside/div[2]/div/div/div[1]/table/tbody/tr[3]/td/div[1]/div"/>
+        <element name="cpPaymentForm" type="text" selector="//form[@id='co-payment-form']"/>
+        <element name="taxCertSuccessMessage2" type="text" selector="//*[contains(@class,'opc-block-summary')]//table[contains(@class,'table-totals')]/tbody//tr[contains(@class,' certificate-links')]//div[contains(text(),'Your tax document has been applied to this cart and taxes have been recalculated')]"/>
+
+
+    </section>
+</sections>

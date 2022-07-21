@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="CreateNewCertificationFromMyAccountUsingCertCapturePopUpTest">
+        <annotations>
+            <features value="Add new certificate using Cert Capture pop up from My Account Page"/>
+            <stories value="Tax Exemptions"/>
+            <title value="Add new certificate using Cert Capture pop up from My Account Page | Owner name : Nikita Torane"/>
+            <description value="User should able to create a New Tax Certificate from My Account page using GenCert popup to exempt from Tax Calculation."/>
+            <severity value="MAJOR"/>
+            <testCaseId value="C3889333"/>
+            <group value="avatax_tax_exemption"/>
+        </annotations>
+        <before>
+            <magentoCLI command="cache:flush" stepKey="flushCache" />
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginToAdminPanel"/>
+            <actionGroup ref="AdminGoToSalesTaxConfigurationPageActionGroup" stepKey="openSalesTaxConfigurationPage"/>
+            <actionGroup ref="AdminDocManagmentEnablePageActionGroup" stepKey="enableDocManagment"/>
+            <actionGroup ref="CliCacheCleanActionGroup" stepKey="cleanCache">
+                <argument name="tags" value="config full_page"/>
+            </actionGroup>
+            <createData entity="Simple_Customer_CA" stepKey="createCustomer"/>
+            <comment userInput="Adding the comment to replace CliIndexerReindexActionGroup action group ('indexer:reindex' commands) for preserving Backward Compatibility" stepKey="reindex"/>
+       </before>
+        <after>
+            <deleteData createDataKey="createCustomer" stepKey="deleteCustomer"/>
+            <actionGroup ref="CliCacheCleanActionGroup" stepKey="cleanCache">
+                <argument name="tags" value="config full_page"/>
+            </actionGroup>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
+        </after>
+
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="storefrontCustomerLogin">
+            <argument name="Customer" value="$$createCustomer$$"/>
+        </actionGroup>
+
+        <actionGroup ref="StorefrontOpenMyAccountPageActionGroup" stepKey="amOnMyAccountDashboard1"/>
+        <actionGroup ref="StorefrontOpenTaxCertificatesPageActionGroup" stepKey="goToTaxcertificatePage"/>
+        <actionGroup ref="StorefrontOpenAddNewCertificatePageActionGroup" stepKey="clickAddExemptionButton"/>
+        <actionGroup ref="SelectExposureZonePopUpActionGroup" stepKey="selectExposureZone"/>
+        <actionGroup ref="TaxExepmptionTaxInformationPopUpActionGroup" stepKey="fillTaxInformation"/>
+        <actionGroup ref="TaxExemReasonForDccPopUpActionGroup" stepKey="clickTaxExemReasonForDoc"/>
+        <actionGroup ref="TaxExemptionBusinessInformationActionGroup" stepKey="enterBusinessInformation"/>
+        <actionGroup ref="TaxExemptionSignerInformationActionGroup" stepKey="enterSignerInfor"/>
+        <actionGroup ref="TaxExemptLoaderActionGroup" stepKey="waiForLoader"/>
+        <actionGroup ref="StorefrontOpenMyAccountPageActionGroup" stepKey="amOnMyAccountDashboard2"/>
+        <actionGroup ref="StorefrontOpenTaxCertificatesPageActionGroup" stepKey="goToTaxcertificatePage2"/>
+
+        <see selector="{{StorefrontCustomerTaxCertificatesValidationSection.State}}" userInput="California" stepKey="verifyCertState"/>
+        <see selector="{{StorefrontCustomerTaxCertificatesValidationSection.Status}}" userInput="Approved" stepKey="verifyCertStatus"/>
+
+       
+        
+    </test>
+</tests>

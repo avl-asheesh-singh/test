@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminAvaTaxDisableSalesTaxSettingActionGroup">
+        <annotations>
+            <description>Disable AvaTax</description>
+        </annotations>
+        <conditionalClick stepKey="expandAvaTaxGeneralOptions" selector="{{SalesTaxConfigSection.AvaTaxGeneralOptions}}" dependentSelector="{{SalesTaxConfigSection.AvaTaxGeneralCheckIfTabExpand}}" visible="true" />
+        <waitForElementVisible selector="{{SalesTaxConfigSection.EnableAvaTax}}" stepKey="waitForEnableAvaTaxDropdown2" />
+        <selectOption selector="{{SalesTaxConfigSection.EnableAvaTax}}" userInput="No" stepKey="selectOption2DisableAvaTax"/>
+        <click selector="{{SalesTaxConfigSection.AvaTaxGeneralOptions}}" stepKey="collapseGeneralOptions2" />
+        <click selector="{{SalesTaxConfigSection.Save}}" stepKey="saveConfig" />
+    </actionGroup>
+</actionGroups>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+         <section name="TaxExemptionSignerInformationSection">
+                <element name="taxInfoIframe" type="text" selector="#gencert_iframe"/>
+                <element name="taxInfoIframe2" type="text" selector="//div[@class='cert-capture-sdk-view']//iframe[@id='gencert_iframe']"/>          
+                
+                <element name="nameOfSigner" type="input" selector="//input[@id='signer_name']"/>
+                <element name="titleOfSigner" type="input" selector="//input[@name='title']"/>
+                <element name="expirationDate" type="input" selector="//input[@class='md-datepicker-input md-input']"/>
+                <element name="signTheDocument" type="button" selector="canvas#default_signature_canvas"/>
+                <element name="saveAndContinueBtn" type="button" selector="//div[contains(@class,'end-center layout-row')]//button[@id='signer_go_btn']"/>
+
+         </section>
+</sections>

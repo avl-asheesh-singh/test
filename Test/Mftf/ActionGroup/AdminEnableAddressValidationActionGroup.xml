@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminEnableAddressValidationActionGroup">
+        <annotations>
+            <description>Enable Address Validation</description>
+        </annotations>
+        <conditionalClick stepKey="expandAvaTaxAddressValidationOptions" selector="{{SalesTaxConfigSection.AvaTaxAddressValidationOptions}}" dependentSelector="{{SalesTaxConfigSection.CheckIfTabExpand}}" visible="true" />
+        <waitForElementVisible selector="{{SalesTaxConfigSection.EnableAddressValidation}}" stepKey="waitForEnableAddressValidationDropdown1" />
+        <selectOption selector="{{SalesTaxConfigSection.EnableAddressValidation}}" userInput="Yes" stepKey="selectOption1"/>
+        <click selector="{{SalesTaxConfigSection.AvaTaxAddressValidationOptions}}" stepKey="collapseAddressValidationOptions" />
+        <click selector="{{SalesTaxConfigSection.Save}}" stepKey="saveConfig" />
+        <waitForPageLoad stepKey="wait1"/>
+    </actionGroup>
+</actionGroups>
