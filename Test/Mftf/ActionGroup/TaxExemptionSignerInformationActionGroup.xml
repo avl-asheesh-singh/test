@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="TaxExemptionSignerInformationActionGroup">
+        <annotations>
+            <description>Enters Signer information for Tax Exemption</description>
+        </annotations>
+        
+        <waitForPageLoad time="60" stepKey="wait5678"/>
+        
+       
+        <waitForElementVisible selector="{{TaxExemptionSignerInformationSection.nameOfSigner}}" stepKey="waitForNameOfShipperInput"/>
+        <fillField selector="{{TaxExemptionSignerInformationSection.nameOfSigner}}" userInput="Test" stepKey="enterNameOfSigner"/>
+        <fillField selector="{{TaxExemptionSignerInformationSection.titleOfSigner}}" userInput="Test" stepKey="enterTitleOfSigner"/>
+        <fillField selector="{{TaxExemptionSignerInformationSection.expirationDate}}" userInput="2023-05-31" stepKey="enterExpirationDate"/>        
+        <click selector="{{TaxExemptionSignerInformationSection.signTheDocument}}" stepKey="enterSign"/>
+        <waitForPageLoad time="60" stepKey="wait56789"/>
+
+        <!-- Clicks on Save and Continue button-->       
+        <executeJS function="jQuery('{{TaxExemptionSignerInformationSection.signTheDocument}}').click();" stepKey="jsCanvas"/>
+        <executeJS function="jQuery('{{TaxExemptionSignerInformationSection.signTheDocument}}').mouseleave();" stepKey="jsMouseLeave"/>
+
+        <waitForPageLoad time="60" stepKey="wait567810"/>
+        <scrollTo selector="{{TaxExemptionSignerInformationSection.saveAndContinueBtn}}" stepKey="scrollToSaveBtn"/>
+        <click selector="{{TaxExemptionSignerInformationSection.saveAndContinueBtn}}" stepKey="clickSaveAndContinue"/>
+       
+       
+    </actionGroup>
+</actionGroups>

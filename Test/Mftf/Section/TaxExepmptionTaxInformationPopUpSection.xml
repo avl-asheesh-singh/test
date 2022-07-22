@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="TaxExepmptionTaxInformationPopUpSection">
+        <element name="name" type="input" selector="//input[@id='gc_p_name']"/>
+        <element name="telephone" type="input" selector="input[name=phone_number]"/>
+        <element name="address" type="input" selector="input[name=addr]"/>
+        <element name="city" type="input" selector="input[name=city]"/>
+
+        <element name="countrydd" type="select" selector="//md-input-container[contains(@class,'md-block md-no-float md-input-container')]//md-select[@name='country']"/>
+        <element name="country" type="select" selector="#select_option_5"/>
+
+        <element name="statedd" type="select" selector="//md-input-container[contains(@class,'md-block md-no-float md-input-container')]//md-select[@name='state']"/>       
+        <element name="state" type="select" selector="#select_option_417"/>
+
+        <element name="zip" type="input" selector="input[name=zip]"/>
+        
+        <element name="saveAndContinueBtn" type="button" selector="//button[@id='purchaser_go_btn' and contains(@class,'md-raised')]"/>
+        <element name="closeBtn" type="button" selector="//aside[contains(@class,'account-add-exemption-modal')]//button[@class='action-close']"/>
+        <element name="taxInfoIframe" type="text" selector="#gencert_iframe"/>
+</section>
+</sections>

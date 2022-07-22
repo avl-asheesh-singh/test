@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+         <section name="TaxExemReasonForDocPopUpSection">
+                <element name="taxInfoIframe" type="text" selector="#gencert_iframe"/>
+                <element name="taxInfoIframe2" type="text" selector="//div[@class='cert-capture-sdk-view']//iframe[@id='gencert_iframe']"/>
+                
+                <element name="commonCarrierRadioBtn" type="radio" selector="//md-card-content[@class='exempt_reasons_card layout-padding']//form[@id='gcform']//div[@ng-if='questions.length']//div[4]"/>
+                <element name="saveAndContinueBtn" type="button" selector="//button[@id='save_and_continue']"/>
+
+         </section>
+</sections>

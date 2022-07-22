@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="TaxExemReasonForDccPopUpActionGroup">
+        <annotations>
+            <description>Selects Radio button on "Select a reason for creating this document" popup</description>
+        </annotations>
+        
+        <!-- Fills all the tax information input feilds-->
+        <waitForPageLoad time="60" stepKey="wait5678"/>
+          
+        <waitForElementVisible selector="{{TaxExemReasonForDocPopUpSection.commonCarrierRadioBtn}}" stepKey="waitCommonCarrierRadioBtn"/>
+        <click selector="{{TaxExemReasonForDocPopUpSection.commonCarrierRadioBtn}}" stepKey="clickCommonCarrierRadioBtn"/>
+
+        <!-- Clicks on Save and Continue button-->
+        <click selector="{{TaxExemReasonForDocPopUpSection.saveAndContinueBtn}}" stepKey="clickSaveAndContinue"/>
+       
+    </actionGroup>
+</actionGroups>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="StoreFrontVerifyYourBillingAddressSection">
+        <!-- Elements on popup "Verify Your Billing Address" -->
+        <element name="billingValidationModalHeader" type="text" selector="//*[contains(@class,'billingValidationModal') and [@aria-describedby='modal-content-13']]//div[@data-role='focusable-scope']//h1[contains(text(),'Verify Your Billing Address')]"/>
+        <element name="saveAddressBillingAddress" type="button" selector="//*[contains(@class,'billingValidationModal') and @aria-describedby='modal-content-13']//div[@data-role='focusable-scope']//button[contains(@class,'action-primary action primary')]"/>
+    </section>
+</sections>

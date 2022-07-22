@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataProfileSchema.xsd">
+    <entity name="US_Address_WA_Invalid_City" type="address">
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="company">Magento</data>
+        <array key="street">
+            <item>900 winslow way e</item>
+        </array>
+        <data key="city">AA</data>
+        <data key="country_id">US</data>
+        <data key="country">United States</data>
+        <data key="state">Western Australia</data>
+        <data key="postcode">98110</data>
+        <data key="telephone">512-345-6789</data>
+        <data key="default_billing">Yes</data>
+        <data key="default_shipping">Yes</data>
+        <requiredEntity type="region">SalesTaxRegionWA</requiredEntity>
+    </entity>
+    <entity name="Non_US_Address" type="address">
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="company">Magento</data>
+        <array key="street">
+            <item>900 winslow way e</item>
+        </array>
+        <data key="city">AA</data>
+        <data key="country_id">AU</data>
+        <data key="country">Australia</data>
+        <data key="state">Victoria</data>
+        <data key="postcode">98110</data>
+        <data key="telephone">512-345-6789</data>
+        <data key="default_billing">Yes</data>
+        <data key="default_shipping">Yes</data>
+        <requiredEntity type="region">SalesTaxRegionWA</requiredEntity>
+    </entity>
+    <entity name="SalesTaxRegionWA" type="region">
+        <data key="region">Washington</data>
+        <data key="region_code">WA</data>
+        <data key="region_id">62</data>
+    </entity>
+    <entity name="Valid_US_Address" type="address">
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="company">Magento</data>
+        <array key="street">
+            <item>600 W College Ave</item>
+        </array>
+        <data key="city">Tallahassee</data>
+        <data key="country_id">US</data>
+        <data key="country">United States</data>
+        <data key="state">Florida</data>
+        <data key="postcode">32306</data>
+        <data key="telephone">512-345-6789</data>
+        <data key="default_billing">Yes</data>
+        <data key="default_shipping">Yes</data>
+        <requiredEntity type="region">SalesTaxRegionFL</requiredEntity>
+    </entity>
+    <entity name="SalesTaxRegionFL" type="region">
+        <data key="region">Florida</data>
+        <data key="region_code">FL</data>
+        <data key="region_id">18</data>
+    </entity>
+    <entity name="SalesTaxInvalidZipcode" type="address">
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="company">Magento</data>
+        <array key="street">
+            <item>600 W College Ave</item>
+        </array>
+        <data key="city">Brainbridge Island</data>
+        <data key="country_id">US</data>
+        <data key="country">United States</data>
+        <data key="state">Washington</data>
+        <data key="postcode">101010</data>
+        <data key="telephone">512-345-6789</data>
+        <data key="default_billing">Yes</data>
+        <data key="default_shipping">Yes</data>
+        <requiredEntity type="region">SalesTaxRegionWA</requiredEntity>
+    </entity>
+    <entity name="SalesTaxFirstLineSplChar" type="address">
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="company">Magento</data>
+        <array key="street">
+            <item>20 Mason Dr # 501</item>
+        </array>
+        <data key="city">Chattanooga</data>
+        <data key="country_id">US</data>
+        <data key="country">United States</data>
+        <data key="state">Tennessee</data>
+        <data key="postcode">37415</data>
+        <data key="telephone">512-345-6789</data>
+        <data key="default_billing">Yes</data>
+        <data key="default_shipping">Yes</data>
+        <requiredEntity type="region">SalesTaxRegionTN</requiredEntity>
+    </entity>
+    <entity name="SalesTaxRegionTN" type="region">
+        <data key="region">Tennessee</data>
+        <data key="region_code">TN</data>
+        <data key="region_id">56</data>
+    </entity>
+    <entity name="SalesTaxFirstLineSplCharDash" type="address">
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="company">Magento</data>
+        <array key="street">
+            <item>218 74th St Apt D-7</item>
+        </array>
+        <data key="city">Brooklyn</data>
+        <data key="country_id">US</data>
+        <data key="country">United States</data>
+        <data key="state">New York</data>
+        <data key="postcode">1120</data>
+        <data key="telephone">512-345-6789</data>
+        <data key="default_billing">Yes</data>
+        <data key="default_shipping">Yes</data>
+        <requiredEntity type="region">SalesTaxRegionNY</requiredEntity>
+    </entity>
+    <entity name="SalesTaxRegionNY" type="region">
+        <data key="region">New York</data>
+        <data key="region_code">NY</data>
+        <data key="region_id">43</data>
+    </entity>
+    <entity name="SalesTaxFirstLineThirtyChars" type="address">
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="company">Magento</data>
+        <array key="street">
+            <item>2200 Benjamin Franklin Pkwy Apt W1006</item>
+        </array>
+        <data key="city">Philadelphia</data>
+        <data key="country_id">US</data>
+        <data key="country">United States</data>
+        <data key="state">New York</data>
+        <data key="postcode">1120</data>
+        <data key="telephone">512-345-6789</data>
+        <data key="default_billing">Yes</data>
+        <data key="default_shipping">Yes</data>
+        <requiredEntity type="region">SalesTaxRegionPA</requiredEntity>
+    </entity>
+    <entity name="SalesTaxRegionPA" type="region">
+        <data key="region">Pennsylvania</data>
+        <data key="region_code">PA</data>
+        <data key="region_id">51</data>
+    </entity>
+    <entity name="US_Address_Non_Geocoded" type="address">
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="company">Magento</data>
+        <array key="street">
+            <item>-</item>
+        </array>
+        <data key="city">-</data>
+        <data key="country_id">US</data>
+        <data key="country">United States</data>
+        <data key="state">Alabama</data>
+        <data key="postcode">99999</data>
+        <data key="telephone">512-345-6789</data>
+        <data key="default_billing">Yes</data>
+        <data key="default_shipping">Yes</data>
+        <requiredEntity type="region">SalesTaxRegionAL</requiredEntity>
+    </entity>
+    <entity name="SalesTaxRegionAL" type="region">
+        <data key="region">Alabama</data>
+        <data key="region_code">AL</data>
+        <data key="region_id">1</data>
+    </entity>
+</entities>

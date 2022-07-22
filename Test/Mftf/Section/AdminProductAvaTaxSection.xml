@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="AdminProductAvaTaxSection">
+        <element name="avataxToggle" type="button" selector="div[data-index=avatax] .admin__collapsible-title"/>
+        <element name="avataxDropdown" type="select" selector="div[data-index='category_ids']" timeout="30"/>
+        <element name="crossborderTypeDropDown" type="select" selector="div[data-index='avatax_cross_border_type']"/>
+        <element name="avataxCrossborerSelect" type="select" selector="select[name='product[avatax_cross_border_type]']" timeout="30"/>  
+         <element name="save" type="button" selector="#save-button" timeout="30"/>
+    </section>
+</sections>

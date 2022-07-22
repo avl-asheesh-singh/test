@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminAvaTaxDisableCommitSubmitTransactionSettingActionGroup">
+        <annotations>
+            <description>Disable CommitSubmit Transaction</description>
+        </annotations>
+        <amOnPage url="{{AdminSalesTaxConfigurationPage.url}}" stepKey="onSalesTaxConfigurationPage"/>
+        <waitForPageLoad stepKey="wait1"/>
+        <conditionalClick stepKey="expandAvaTaxGeneralOptions" selector="{{SalesTaxConfigSection.AvaTaxGeneralOptions}}" dependentSelector="{{SalesTaxConfigSection.AvaTaxGeneralCheckIfTabExpand}}" visible="true" />
+        <waitForElementVisible selector="{{SalesTaxConfigSection.EnableAvaTax}}" stepKey="waitForEnableAvaTaxDropdown1" />
+        <selectOption selector="{{SalesTaxConfigSection.EnableAvaTax}}" userInput="Yes" stepKey="selectOption1EnableAvaTax"/>
+        <selectOption selector="{{SalesTaxConfigSection.EnableTaxMode}}" userInput="Estimate Tax &amp; Submit Transactions to AvaTax (default)" stepKey="selectOption3"/>
+        <selectOption selector="{{SalesTaxConfigSection.EnableCommitSubmittedTransactions}}" userInput="No" stepKey="selectOption2DisableCommitSubmittedTransactions"/>
+        <click selector="{{SalesTaxConfigSection.Save}}" stepKey="saveConfig" />
+    </actionGroup>
+</actionGroups>

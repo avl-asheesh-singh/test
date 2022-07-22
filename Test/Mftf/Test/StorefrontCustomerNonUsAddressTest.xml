@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontCustomerNonUsAddressTest">
+        <annotations>
+            <features value="Customer Address Validation for Non Us Address"/>
+            <stories value="Customer Address Validation for Non Us Address"/>
+            <title value="Customer Address Validation for Non Us Address"/>
+            <description value="Should be able to validate address as a customer. | Owner: Abhilash"/>
+            <severity value="MINOR"/>
+            <testCaseId value=""/>
+            <group value="checkout"/>
+        </annotations>
+        <before>
+            <createData entity="Simple_US_Customer_Multiple_Addresses" stepKey="createCustomer"/>
+        </before>
+        <after>
+            <deleteData createDataKey="createCustomer" stepKey="DeleteCustomer"/>
+        </after>
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="signUp">
+            <argument name="Customer" value="$$createCustomer$$"/>
+        </actionGroup>
+         <actionGroup ref="StorefrontAddCustomerDefaultAddressActionGroup" stepKey="AddNewDefaultAddress">
+            <argument name="Address" value="Non_US_Address"/>
+        </actionGroup>
+        <see userInput="{{Non_US_Address.street[0]}}" selector="{{StorefrontCustomerAddressesSection.defaultBillingAddress}}" stepKey="checkNewAddressesStreetOnDefaultBilling"/>
+        <see userInput="{{Non_US_Address.city}}" selector="{{StorefrontCustomerAddressesSection.defaultBillingAddress}}" stepKey="checkNewAddressesCityOnDefaultBilling"/>
+        <see userInput="{{Non_US_Address.postcode}}" selector="{{StorefrontCustomerAddressesSection.defaultBillingAddress}}" stepKey="checkNewAddressesPostcodeOnDefaultBilling"/>
+        <see userInput="{{Non_US_Address.street[0]}}" selector="{{StorefrontCustomerAddressesSection.defaultShippingAddress}}" stepKey="checkNewAddressesStreetOnDefaultShipping"/>
+        <see userInput="{{Non_US_Address.city}}" selector="{{StorefrontCustomerAddressesSection.defaultShippingAddress}}" stepKey="checkNewAddressesCityOnDefaultShipping"/>
+        <see userInput="{{Non_US_Address.postcode}}" selector="{{StorefrontCustomerAddressesSection.defaultShippingAddress}}" stepKey="checkNewAddressesPostcodeOnDefaultShipping"/>
+    </test>
+</tests>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+       <test name="AdminAddNewValidCustomerAddressTest" >
+            <annotations>
+                <features value="Add new valid address"/>
+                <stories value="Address Validations"/>
+                <title value="Admin should be able to add new address to customer | Owner:Vaishali Dhake"/>
+                <description value="Login to admin, goto cutsomers listing, select customer to edit and select address tab, add new address and validate it."/>
+                <severity value="MINOR"/>
+                <testCaseId value="3757271"/>
+                <group value="avatax_address_validation"/>
+            </annotations>
+            <before>
+                
+                <!-- Admin login -->
+                <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdminaa"/>
+                <!-- enable address validation -->
+                <actionGroup ref="AdminGoToSalesTaxConfigurationPageActionGroup" stepKey="openSalesTaxConfigurationPage"/>
+                <actionGroup ref="AdminEnableAddressValidationActionGroup" stepKey="enableAddressValidation"/>
+            </before>
+            <after>
+                <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutaa"/>
+            </after>
+            <actionGroup ref="AdminOpenCustomersGridActionGroup" stepKey="openCustomersGridPage"/>
+            <actionGroup ref="AvaOpenEditCustomerFromAdminActionGroup" stepKey="avaopenEditCustomerPage">
+                <argument name="avacustomer" value="Ava_Simple_US_Customer_Multiple_Addresses_No_Default_Address"/>
+            </actionGroup>
+            <click selector="{{AdminEditCustomerInformationSection.addresses}}" stepKey="openAddressesTab"/>
+            <waitForPageLoad stepKey="waitForAddresses"/>
+            <click selector="{{AdminCustomerAddressesSection.addNewAddress}}" stepKey="clickAddNewAddressButton"/>
+            <waitForPageLoad stepKey="waitForAddUpdateCustomerAddressForm"/>
+            <!--Step4. Fill all the fields with test data and press *Save* button-->
+            <fillField userInput="{{Ava_US_Address_CA.firstname}}" selector="{{AdminCustomerAddressesSection.firstNameForAddress}}" stepKey="fillFirstName"/>
+            <fillField userInput="{{Ava_US_Address_CA.lastname}}" selector="{{AdminCustomerAddressesSection.lastNameForAddress}}" stepKey="fillLastName"/>
+            <fillField userInput="{{Ava_US_Address_CA.company}}" selector="{{AdminCustomerAddressesSection.company}}" stepKey="fillCompany"/>
+            <fillField userInput="{{Ava_US_Address_CA.street[0]}}" selector="{{AdminCustomerAddressesSection.streetAddress}}" stepKey="fillStreet"/>
+            <fillField userInput="{{Ava_US_Address_CA.city}}" selector="{{AdminCustomerAddressesSection.city}}" stepKey="fillCity"/>
+            <click selector="{{AdminCustomerAddressesSection.country}}" stepKey="clickCountryToOpenListOfCountries"/>
+            <click selector="{{AdminCustomerAddressesSection.countryId(Ava_US_Address_CA.country_id)}}" stepKey="fillCountry"/>
+            <fillField userInput="{{Ava_US_Address_CA.postcode}}" selector="{{AdminCustomerAddressesSection.zip}}" stepKey="fillPostcode"/>
+            <fillField userInput="{{Ava_US_Address_CA.telephone}}" selector="{{AdminCustomerAddressesSection.phoneNumber}}" stepKey="fillTelephone"/>
+            <click selector="{{AdminCustomerAddressesSection.region}}" stepKey="clickRegionToOpenListOfRegions"/>
+            <click selector="{{AdminCustomerAddressesSection.regionId(Ava_US_Address_CA.state)}}" stepKey="fillRegion"/>
+            <click selector="{{AvaAdminCustomerAddressesSection.validateAddress}}" stepKey="avaclickValidateAddressOnAddUpdateAddressForm"/>
+            <waitForPageLoad stepKey="waitForNewAddressIsCreated"/>
+            <seeElement selector="{{AvaAdminCustomerAddressesSection.avaaddress}}" stepKey="seeValidAddress"/>
+            <see userInput="Suggested Address" selector="{{AvaAdminCustomerAddressesSection.avaaddress}}" stepKey="assertValidAddressSuggested"/>
+       </test>
+</tests>

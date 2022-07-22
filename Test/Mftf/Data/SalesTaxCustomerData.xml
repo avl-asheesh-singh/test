@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataProfileSchema.xsd">    
+    <entity name="Simple_Customer" type="customer">
+        <data key="group_id">1</data>
+        <data key="default_billing">true</data>
+        <data key="default_shipping">true</data>
+        <data key="email" unique="prefix">John.Doe@example.com</data>
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="fullname">John Doe</data>
+        <data key="password">pwdTest123!</data>
+        <data key="store_id">0</data>
+        <data key="website_id">0</data>
+        <data key="group">General</data>
+        <requiredEntity type="address">Customer_Address</requiredEntity>
+    </entity>
+    <entity name="Customer_Address" type="address">
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="company">Magento</data>
+        <array key="street">
+            <item>1900 WINSLOW WAY E</item>
+        </array>
+        <data key="city">BAINBRIDGE ISLAND</data>
+        <data key="country_id">US</data>
+        <data key="country">United States</data>
+        <data key="state">Washington</data>
+        <data key="postcode">98110-2450</data>
+        <data key="telephone">512-345-6789</data>
+        <data key="default_billing">Yes</data>
+        <data key="default_shipping">Yes</data>
+        <requiredEntity type="region">SalesTaxRegionWA</requiredEntity>
+    </entity>
+    <entity name="SalesTaxRegionWA" type="region">
+        <data key="region">Washington</data>
+        <data key="region_code">WA</data>
+        <data key="region_id">62</data>
+    </entity>
+    <entity name="SimpleProduct" type="product">
+        <data key="name" unique="suffix">Simple Product </data>
+        <data key="sku" unique="suffix">SimpleProduct</data>
+        <data key="urlKey" unique="suffix">simple-product-</data>
+        <data key="type_id">simple</data>
+        <data key="attribute_set_id">4</data>
+        <data key="price">200.00</data>
+        <data key="visibility">4</data>
+        <data key="status">1</data>
+        <data key="quantity">1000</data>
+        <data key="weight">1</data>
+        <requiredEntity type="product_extension_attribute">EavStockItem</requiredEntity>
+        <requiredEntity type="custom_attribute_array">CustomAttributeCategoryIds</requiredEntity>
+    </entity>
+    <entity name="EstimateAddressWashington">
+        <data key="country">United States</data>
+        <data key="state">Washington</data>
+        <data key="zipCode">98110-2450</data>
+    </entity>
+
+
+    <entity name="Simple_Customer_CA" type="customer">
+        <data key="group_id">1</data>
+        <data key="default_billing">true</data>
+        <data key="default_shipping">true</data>
+        <data key="email" unique="prefix">nikita.torane1@example.com</data>
+        <data key="firstname">Nikita</data>
+        <data key="lastname">Torane</data>
+        <data key="fullname">Nikita Torane</data>
+        <data key="password">pwdTest123!</data>
+        <data key="store_id">0</data>
+        <data key="website_id">0</data>
+        <data key="group">General</data>
+        <requiredEntity type="address">Address_CA</requiredEntity>
+    </entity>
+
+    <entity name="Address_CA" type="address">
+        <data key="firstname">Nikita</data>
+        <data key="lastname">Torane</data>
+        <data key="company">Magento</data>
+        <array key="street">
+            <item>4200 Chino Hills Pkwy</item>
+        </array>
+        <data key="city">Chino Hills</data>
+        <data key="country_id">US</data>
+        <data key="country">United States</data>
+        <data key="state">California</data>
+        <data key="postcode">91709-3776</data>
+        <data key="telephone">512-345-6789</data>
+        <requiredEntity type="region">SalesTaxRegionCA</requiredEntity>
+    </entity>
+
+    <entity name="SalesTaxRegionCA" type="region">
+        <data key="region">California</data>
+        <data key="region_id">12</data>
+        <data key="region_code">CA</data>
+    </entity>
+</entities>
