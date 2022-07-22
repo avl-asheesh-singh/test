@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="StorefrontCustomerTaxCertificateSection">
+        <element name="title" type="text" selector="//div[@class='page-title-wrapper']//span[@data-ui-id='page-title-wrapper']" timeout="30"/>
+        <element name="addExemptionButton" type="button" selector="//div[@class='account-add-certifications-component']//button[contains(@data-bind,'addExemption')]"/>
+        <element name="exemptionZonePopUpTitle" type="text" selector="//div[@class='exemption-zone-select-view fieldset']//p[contains(@data-bind,'elect a new state/exposure zone')]" timeout="30"/>
+    </section>
+</sections>

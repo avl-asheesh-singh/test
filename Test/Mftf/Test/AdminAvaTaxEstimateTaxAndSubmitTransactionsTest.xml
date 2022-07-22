@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminAvaTaxEstimateTaxAndSubmitTransactionsTest">
+        <annotations>
+            <features value="Estimate Tax and Submit Transactions to AvaTax"/>
+            <stories value="Configuration"/>
+            <title value="Estimate Tax and Submit Transactions to AvaTax | Owner: Vishal"/>
+            <description value="Should be able to Estimate Tax and Submit Transactions to AvaTax."/>
+            <severity value="MINOR"/>
+            <testCaseId value="C3885535"/>
+            <group value="avatax_configuration"/>
+        </annotations>
+        <before>
+            <createData entity="SimpleSubCategory" stepKey="createCategory"/>
+            <createData entity="AvaTaxSimpleProduct" stepKey="createSimpleProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+            <createData entity="AvaTax_Simple_Customer" stepKey="createCustomer"/>
+            <comment userInput="Adding the comment to replace CliIndexerReindexActionGroup action group ('indexer:reindex' commands) for preserving Backward Compatibility" stepKey="reindex"/>
+        </before>
+        <after>
+            <actionGroup ref="StorefrontCustomerLogoutActionGroup" stepKey="logoutStorefront"/>
+            <deleteData createDataKey="createSimpleProduct" stepKey="deleteSimpleProduct"/>
+            <deleteData createDataKey="createCategory" stepKey="deleteSimpleCategory"/>
+            <deleteData createDataKey="createCustomer" stepKey="deleteUsCustomer"/>
+            <actionGroup ref="AdminClearCustomersFiltersActionGroup" stepKey="resetCustomerFilters"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutFromAdmin"/>
+            <comment userInput="BIC workaround" stepKey="logoutCustomer"/>
+        </after>
+        <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin2"/>
+        <actionGroup ref="AdminAvaTaxEnableCommitSubmitTransactionSettingActionGroup" stepKey="salesTaxPreConditionEnable"/>
+
+        <actionGroup ref="CliCacheCleanActionGroup" stepKey="cleanCache">
+            <argument name="tags" value="config full_page"/>
+        </actionGroup>
+        <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutFromAdmin2"/>
+
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="storefrontCustomerLogin">
+            <argument name="Customer" value="$$createCustomer$$"/>
+        </actionGroup>
+
+        <actionGroup ref="StorefrontNavigateCategoryPageActionGroup" stepKey="navigateToCategoryPage">
+            <argument name="category" value="$$createCategory$$"/>
+        </actionGroup>
+
+        <waitForPageLoad stepKey="waitForCatalogPageLoad"/>
+
+        <actionGroup ref="StorefrontAddCategoryProductToCartActionGroup" stepKey="addProductToCart">
+            <argument name="product" value="$$createSimpleProduct$$"/>
+            <argument name="productCount" value="CONST.one"/>
+        </actionGroup>
+
+        <actionGroup ref="GoToCheckoutFromMinicartActionGroup" stepKey="goToCheckoutFromMinicart"/>
+        <actionGroup ref="CheckoutSelectFlatRateShippingMethodActionGroup" stepKey="selectFlatRate"/>
+        <actionGroup ref="StorefrontCheckoutForwardFromShippingStepActionGroup" stepKey="goToReview"/>
+        <actionGroup ref="CheckoutSelectCheckMoneyOrderPaymentActionGroup" stepKey="selectCheckMoneyOrder"/>
+        <see selector="{{StorefrontAvaTaxCheckoutOrderSummarySection.Tax}}" userInput="Tax" stepKey="seeTaxInOrderSummary"/>
+        <actionGroup ref="CheckoutPlaceOrderActionGroup" stepKey="clickOnPlaceOrder">
+            <argument name="orderNumberMessage" value="CONST.successCheckoutOrderNumberMessage"/>
+            <argument name="emailYouMessage" value="CONST.successCheckoutEmailYouMessage"/>
+        </actionGroup>
+
+        <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="grabOrderNumber"/>
+
+        <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
+
+        <amOnPage url="{{AdminOrdersPage.url}}" stepKey="onOrdersPage"/>
+        <waitForLoadingMaskToDisappear stepKey="waitForLoadingMask3"/>
+        <actionGroup ref="ClearFiltersAdminDataGridActionGroup" stepKey="clearGridFilter"/>
+        <fillField selector="{{AdminOrdersGridSection.search}}" userInput="{$grabOrderNumber}" stepKey="searchOrderNum"/>
+        <click selector="{{AdminOrdersGridSection.submitSearch}}" stepKey="submitSearch"/>
+        <waitForLoadingMaskToDisappear stepKey="waitForLoadingMask4"/>
+
+        <actionGroup ref="AdminOrderGridClickFirstRowActionGroup" stepKey="clickOrderRow"/>
+        <actionGroup ref="AdminClickInvoiceButtonOrderViewActionGroup" stepKey="clickInvoice"/>
+        <actionGroup ref="AdminInvoiceClickSubmitActionGroup" stepKey="clickSubmitInvoice"/>
+        <see selector="{{AdminOrderDetailsMessagesSection.successMessage}}" userInput="The invoice has been created." stepKey="seeSuccessMessage"/>
+        <click selector="{{AdminOrderDetailsOrderViewSection.invoices}}" stepKey="clickInvoices"/>
+        <waitForLoadingMaskToDisappear stepKey="waitForLoadingMask5" />
+        <see selector="{{AdminOrderDetailsInvoicesSection.content}}" userInput="{$grabOrderNumber}" stepKey="seeInvoice1"/>
+        <see selector="{{AdminOrderDetailsInvoicesSection.content}}" userInput="John Doe" stepKey="seeInvoice2"/>
+        <click selector="{{AdminOrderDetailsOrderViewSection.information}}" stepKey="clickInformation"/>
+        <waitForLoadingMaskToDisappear stepKey="waitForOrderInformationTabLoadingMask"/>
+        <see selector="{{AdminOrderDetailsInformationSection.orderStatus}}" userInput="Processing" stepKey="seeOrderStatus"/>
+        <amOnPage url="{{AdminInvoicesPage.url}}" stepKey="goToInvoices"/>
+        <waitForLoadingMaskToDisappear stepKey="waitForLoadingMask6" />
+        <actionGroup ref="ResetProductGridToDefaultViewActionGroup" stepKey="resetGridInitial"/>
+        <click selector="{{AdminInvoicesGridSection.filter}}" stepKey="clickFilters"/>
+        <fillField selector="{{AdminInvoicesFiltersSection.orderNum}}" userInput="{$grabOrderNumber}" stepKey="searchOrderNum2"/>
+        <click selector="{{AdminInvoicesFiltersSection.applyFilters}}" stepKey="clickApplyFilters"/>
+        <click selector="{{AdminInvoicesGridSection.firstRow}}" stepKey="clickInvoice2"/>
+        <see selector="{{AdminInvoiceDetailsInformationSection.orderStatus}}" userInput="Processing" stepKey="seeOrderStatus2"/>
+        <see selector="{{AdminAvaTaxInvoiceSection.Tax}}" userInput="Tax" stepKey="seeTax"/>
+        <waitForPageLoad stepKey="waitForInvoiceDetailsPageToLoad"/>
+        <grabFromCurrentUrl regex="~/invoice_id/(\d+)/~" stepKey="grabInvoiceId"/>
+        <amOnPage url="{{AdminQueuePage.url}}" stepKey="goToQueuePage"/>
+        <waitForLoadingMaskToDisappear stepKey="waitForQueuePageLoadingMask" />
+        <actionGroup ref="ResetProductGridToDefaultViewActionGroup" stepKey="resetQueueGridInitial"/>
+        <click selector="{{AdminQueueGridSection.filter}}" stepKey="clickQueueFilters"/>
+        <fillField selector="{{AdminQueueFiltersSection.invoiceNum}}" userInput="{$grabInvoiceId}" stepKey="searchInvoiceNum"/>
+        <click selector="{{AdminQueueFiltersSection.applyFilters}}" stepKey="clickApplyQueueFilters"/>
+        <click selector="{{AdminQueueGridSection.selectCheckbox}}" stepKey="clickQueue"/>
+        <!-- Halt test execution for 2 min because Queued items will not be processed until 2 minutes after they are created to avoid race conditions during order processing. -->
+        <wait time="190" stepKey="waitTenSeconds"/>
+        <click selector="{{AdminQueueGridSection.processQueue}}" stepKey="clickProcessQueue"/>
+        <waitForLoadingMaskToDisappear stepKey="waitForQueuePageLoadingMask2" />
+        <see selector="{{AdminQueueGridSection.queueOrderStatus}}" userInput="complete" stepKey="seequeueOrderStatusComplete"/>
+    </test>
+</tests>

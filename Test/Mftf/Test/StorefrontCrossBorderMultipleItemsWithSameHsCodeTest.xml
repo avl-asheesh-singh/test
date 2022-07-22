@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontCrossBorderMultipleItemsWithSameHsCodeTest">
+        <annotations>
+            <features value="Customer Checkout"/>
+            <stories value="Checkout via Storefront"/>
+            <title value="Customer Checkout via Storefront"/>
+            <description value="Should be able to place an order as a customer. | Owner: Abhilash"/>
+            <severity value="BLOCKER"/>
+            <testCaseId value="MC-30274"/>
+            <group value="checkout"/>
+        </annotations>
+        <before>
+            <createData entity="SimpleSubCategory" stepKey="createCategory"/>
+            <createData entity="CrossBorderSimpleProduct" stepKey="createSimpleProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+            <createData entity="SimpleProduct" stepKey="createSimpleProduct2">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+            <createData entity="Simple_Cross_Border_Customer" stepKey="createCustomer"/>
+            <comment userInput="Adding the comment to replace CliIndexerReindexActionGroup action group ('indexer:reindex' commands) for preserving Backward Compatibility" stepKey="reindex"/>
+        </before>
+        <after>
+            <actionGroup ref="StorefrontCustomerLogoutActionGroup" stepKey="logoutStorefront"/>
+            <deleteData createDataKey="createSimpleProduct" stepKey="deleteSimpleProduct"/>
+            <deleteData createDataKey="createSimpleProduct2" stepKey="deleteSimpleProduct2"/>
+            <deleteData createDataKey="createCategory" stepKey="deleteSimpleCategory"/>
+            <deleteData createDataKey="createCustomer" stepKey="deleteUsCustomer"/>
+        </after>
+
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="storefrontCustomerLogin">
+            <argument name="Customer" value="$$createCustomer$$"/>
+        </actionGroup>
+
+        <actionGroup ref="StorefrontNavigateCategoryPageActionGroup" stepKey="navigateToCategoryPage">
+            <argument name="category" value="$$createCategory$$"/>
+        </actionGroup>
+        <waitForPageLoad stepKey="waitForCatalogPageLoad"/>
+        <actionGroup ref="StorefrontAddCrossBorderProductToCartActionGroup" stepKey="addProduct2ToCart">
+            <argument name="product" value="$$createSimpleProduct2$$"/>
+            <argument name="productCount" value="CONST.one"/>
+        </actionGroup>
+        <wait time="10" stepKey="waitTenSeconds"/>
+        <actionGroup ref="StorefrontAddCrossBorderProductToCartActionGroup" stepKey="addProductToCart">
+            <argument name="product" value="$$createSimpleProduct$$"/>
+            <argument name="productCount" value="CONST.two"/>
+        </actionGroup>
+        <wait time="10" stepKey="waitforTenSeconds"/>
+        <actionGroup ref="GoToCheckoutFromMinicartActionGroup" stepKey="goToCheckoutFromMinicart"/>
+        <actionGroup ref="CheckoutSelectFlatRateShippingMethodActionGroup" stepKey="selectFlatRate"/>
+        <actionGroup ref="StorefrontCheckoutForwardFromShippingStepActionGroup" stepKey="goToReview"/>
+        <actionGroup ref="CheckoutSelectCheckMoneyOrderPaymentActionGroup" stepKey="selectCheckMoneyOrder"/>
+        <actionGroup ref="CheckoutPlaceOrderActionGroup" stepKey="clickOnPlaceOrder">
+            <argument name="orderNumberMessage" value="CONST.successCheckoutOrderNumberMessage"/>
+            <argument name="emailYouMessage" value="CONST.successCheckoutEmailYouMessage"/>
+        </actionGroup>
+
+        <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="orderNumber"/>
+    </test>
+</tests>

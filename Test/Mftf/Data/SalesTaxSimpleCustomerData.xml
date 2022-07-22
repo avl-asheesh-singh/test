@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataProfileSchema.xsd">
+    <entity name="AvaTax_Simple_Customer" type="customer">
+        <data key="group_id">1</data>
+        <data key="default_billing">true</data>
+        <data key="default_shipping">true</data>
+        <data key="email" unique="prefix">John.Doe@example.com</data>
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="fullname">John Doe</data>
+        <data key="password">pwdTest123!</data>
+        <data key="store_id">0</data>
+        <data key="website_id">0</data>
+        <data key="group">General</data>
+        <requiredEntity type="address">Address_CA_NEW</requiredEntity>
+    </entity>
+    <entity name="Simple_Address" type="address">
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="company">Magento</data>
+        <array key="street">
+            <item>900 winslow way e</item>
+        </array>
+        <data key="city">Brainbridge Island</data>
+        <data key="country_id">US</data>
+        <data key="country">United States</data>
+        <data key="state">Washington</data>
+        <data key="postcode">98110-2450</data>
+        <data key="telephone">512-345-6789</data>
+        <data key="default_billing">Yes</data>
+        <data key="default_shipping">Yes</data>
+        <requiredEntity type="region">SalesTaxRegionWA</requiredEntity>
+    </entity>
+    <entity name="SalesTaxRegionWA" type="region">
+        <data key="region">Washington</data>
+        <data key="region_code">WA</data>
+        <data key="region_id">62</data>
+    </entity>
+    <entity name="AvaTaxSimpleProduct" type="product">
+        <data key="name" unique="suffix">AvaTax Simple Product 1</data>
+        <data key="sku" unique="suffix">AvataxSimpleProduct1</data>
+        <data key="urlKey" unique="suffix">simple-product-</data>
+        <data key="type_id">simple</data>
+        <data key="attribute_set_id">4</data>
+        <data key="price">200.00</data>
+        <data key="visibility">4</data>
+        <data key="status">1</data>
+        <data key="quantity">1000</data>
+        <data key="weight">1</data>
+        <requiredEntity type="product_extension_attribute">EavStockItem</requiredEntity>
+        <requiredEntity type="custom_attribute_array">CustomAttributeCategoryIds</requiredEntity>
+    </entity>
+
+     <entity name="Address_CA_NEW" type="address">
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="company">Magento</data>
+        <array key="street">
+            <item>4200 Chino Hills Pkwy</item>
+        </array>
+        <data key="city">Chino Hills</data>
+        <data key="country_id">US</data>
+        <data key="country">United States</data>
+        <data key="state">California</data>
+        <data key="postcode">91709-3776</data>
+        <data key="telephone">512-345-6789</data>
+        <requiredEntity type="region">SalesTaxRegionCANEW</requiredEntity>
+    </entity>
+
+    <entity name="SalesTaxRegionCANEW" type="region">
+        <data key="region">California</data>
+        <data key="region_id">12</data>
+        <data key="region_code">CA</data>
+    </entity>
+</entities>
+

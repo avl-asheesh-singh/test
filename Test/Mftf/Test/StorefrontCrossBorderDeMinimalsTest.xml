@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="StorefrontCrossBorderDeMinimalsTest">
+        <annotations>
+            <features value="Customer Checkout"/>
+            <stories value="TaxCalculation/Custom Duties calculation - De-minimis Threshold -Not Succeeded, IOR- Yes"/>
+            <title value="TaxCalculation/Custom Duties calculation - De-minimis Threshold -Not Succeeded, IOR- Yes"/>
+            <description value="Should be able to place an order as a customer. | Owner: Nikita Torane"/>
+            <severity value="MAJOR"/>
+            <testCaseId value="C3806785"/>
+            <group value="avatax_cross_border"/>
+        </annotations>
+        <before>
+            <magentoCLI command="cache:flush" stepKey="flushCache" />
+            <createData entity="SimpleSubCategory" stepKey="createCategory"/>
+            <createData entity="CrossBorderDeMinimalSimpleProduct" stepKey="createSimpleProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>
+            <createData entity="ApiProductWithDescription" stepKey="createProductOne"/>         
+            <createData entity="Simple_Cross_Border_Customer" stepKey="createCustomer"/>
+            <comment userInput="Adding the comment to replace CliIndexerReindexActionGroup action group ('indexer:reindex' commands) for preserving Backward Compatibility" stepKey="reindex"/>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginToAdminPanel"/>
+            <actionGroup ref="AdminGoToSalesTaxConfigurationPageActionGroup" stepKey="openSalesTaxConfigurationPage"/>
+
+             <!-- Search and select products -->
+            <actionGroup ref="AdminOpenProductIndexPageActionGroup" stepKey="navigateToProductIndex"/>
+            <actionGroup ref="SearchProductGridByKeywordActionGroup" stepKey="searchByKeyword">
+                 <argument name="keyword" value="$createSimpleProduct.name$"/>
+            </actionGroup>
+            <actionGroup ref="SortProductsByIdDescendingActionGroup" stepKey="sortProductsByIdDescending"/>
+            <click selector="{{AdminProductGridSection.productGridCheckboxOnRow('1')}}" stepKey="clickCheckbox1"/>
+            <!-- Mass update attributes -->
+            <click selector="{{AdminProductGridSection.bulkActionDropdown}}" stepKey="clickDropdown"/>
+            <click selector="{{AdminProductGridSection.bulkActionOption('Update attributes')}}" stepKey="clickOption"/>
+            <waitForPageLoad stepKey="waitForBulkUpdatePage"/>
+            <seeInCurrentUrl stepKey="seeInUrl" url="catalog/product_action_attribute/edit/"/>
+             <!-- Update attribute Description -->
+            <click selector="{{AdminEditProductAttributesSimpleSection.ChangeAttributeDescriptionToggle}}" stepKey="toggleToChangeDescription"/>
+            <fillField selector="{{AdminEditProductAttributesSimpleSection.AttributeDescription}}" userInput="Updated $createProductOne.custom_attributes[description]$" stepKey="fillAttributeDescriptionField"/>
+            <!-- Update AvaTax CrossBorder Type -->
+            <click selector="{{AdminEditProductAttributesSimpleSection.ChangeAttributeAvaTaxCrossBorderTypeToggle}}" stepKey="changeAttributeAvaTaxCrossBorderType"/>
+            <fillField selector="{{AdminEditProductAttributesSimpleSection.AttributeAvaTaxCrossBorderType}}" userInput="Canada" stepKey="fillAttributeAvaTaxCrossBorderType"/>
+            <!-- Save Settings -->
+            <click selector="{{AdminEditProductAttributesSimpleSection.Save}}" stepKey="save"/>
+            <see selector="{{AdminProductMessagesSection.successMessage}}" userInput="Message is added to queue" stepKey="seeAttributeUpateSuccessMsg"/>
+            <!-- Start message queue for product attribute consumer -->
+            <actionGroup ref="CliConsumerStartActionGroup" stepKey="startMessageQueue">
+                <argument name="consumerName" value="{{AdminProductAttributeUpdateMessageConsumerData.consumerName}}"/>
+                <argument name="maxMessages" value="{{AdminProductAttributeUpdateMessageConsumerData.messageLimit}}"/>
+            </actionGroup>
+            <comment userInput="Adding the comment to replace CliIndexerReindexActionGroup action group ('indexer:reindex' commands) for preserving Backward Compatibility" stepKey="reindex1"/>
+            <magentoCLI command="cron:run --group=index" stepKey="runCron"/>
+             <!-- Search Product and Open Edit -->
+            <actionGroup ref="SearchForProductOnBackendActionGroup" stepKey="searchProduct">
+                    <argument name="product" value="$$createSimpleProduct$$"/>
+            </actionGroup>
+            <actionGroup ref="OpenEditProductOnBackendActionGroup" stepKey="openEditProduct">
+                <argument name="product" value="$$createSimpleProduct$$"/>
+            </actionGroup>
+            <!-- Update new Crossborder type code here-->
+            <actionGroup ref="AdminAssignProductToCrossBorderTypeGroup" stepKey="assignCateassignCrossBorderType">
+                <argument name="crossbordertype" value="Canada"/>
+            </actionGroup>
+        </before>
+
+        <after>
+            <actionGroup ref="StorefrontCustomerLogoutActionGroup" stepKey="logoutStorefront"/>
+            <deleteData createDataKey="createSimpleProduct" stepKey="deleteSimpleProduct"/>
+            <deleteData createDataKey="createCategory" stepKey="deleteSimpleCategory"/>
+            <deleteData createDataKey="createCustomer" stepKey="deleteUsCustomer"/>
+            <actionGroup ref="AdminClearCustomersFiltersActionGroup" stepKey="resetCustomerFilters"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logoutFromAdmin"/>
+            <comment userInput="BIC workaround" stepKey="logoutCustomer"/>
+        </after>
+
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="storefrontCustomerLogin">
+            <argument name="Customer" value="$$createCustomer$$"/>
+        </actionGroup>
+
+        <actionGroup ref="StorefrontNavigateCategoryPageActionGroup" stepKey="navigateToCategoryPage">
+            <argument name="category" value="$$createCategory$$"/>
+        </actionGroup>
+
+        <waitForPageLoad stepKey="waitForCatalogPageLoad"/>
+
+        <actionGroup ref="StorefrontAddCategoryProductToCartActionGroup" stepKey="addProductToCart">
+            <argument name="product" value="$$createSimpleProduct$$"/>
+            <argument name="productCount" value="CONST.one"/>
+        </actionGroup>
+
+        <actionGroup ref="GoToCheckoutFromMinicartActionGroup" stepKey="goToCheckoutFromMinicart"/>
+        <actionGroup ref="CheckoutSelectFlatRateShippingMethodActionGroup" stepKey="selectFlatRate"/>
+        <actionGroup ref="StorefrontCheckoutForwardFromShippingStepActionGroup" stepKey="goToReview"/>
+        <actionGroup ref="CheckoutSelectCheckMoneyOrderPaymentActionGroup" stepKey="selectCheckMoneyOrder"/>
+        <see selector="{{FrontendSalesTaxSection.AvaTaxDeMiniMals}}" userInput="Shipment does not meet CA import duty de minimis threshold ((((ShipFromCountry NOT IN ('US','MX') AND DutyTaxableAmount > 20) OR (ShipFromCountry IN ('US','MX') AND DutyTaxableAmount > 150)) AND ((CIRODeminimisException IS NULL) OR ( CIRODeminimisException = FALSE))) OR CIRODeminimisException = TRUE). Therefore, duty free. No declaration required." stepKey="verifyCBMessage"/>
+        <actionGroup ref="CheckoutPlaceOrderActionGroup" stepKey="clickOnPlaceOrder">
+            <argument name="orderNumberMessage" value="CONST.successCheckoutOrderNumberMessage"/>
+            <argument name="emailYouMessage" value="CONST.successCheckoutEmailYouMessage"/>
+        </actionGroup>
+        <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="orderNumber"/>
+      
+        
+    </test>
+</tests>

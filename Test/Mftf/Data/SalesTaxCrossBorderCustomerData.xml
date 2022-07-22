@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataProfileSchema.xsd">    
+    <entity name="Simple_Cross_Border_Customer" type="customer">
+        <data key="group_id">1</data>
+        <data key="default_billing">true</data>
+        <data key="default_shipping">true</data>
+        <data key="email" unique="prefix">John.Doe@example.com</data>
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="fullname">John Doe</data>
+        <data key="password">pwdTest123!</data>
+        <data key="store_id">0</data>
+        <data key="website_id">0</data>
+        <data key="group">General</data>
+        <requiredEntity type="address">Cross_Border_Address</requiredEntity>
+    </entity>
+    <entity name="Cross_Border_Address" type="address">
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="company">Magento</data>
+        <array key="street">
+            <item>181 Wellington St W</item>
+        </array>
+        <data key="city">Torronto</data>
+        <data key="country_id">CA</data>
+        <data key="country">Canada</data>
+        <data key="state">Ontario</data>
+        <data key="postcode">ONM5V3G7</data>
+        <data key="telephone">512-345-6789</data>
+        <data key="default_billing">Yes</data>
+        <data key="default_shipping">Yes</data>
+        <requiredEntity type="region">SalesTaxRegionON</requiredEntity>
+    </entity>
+    <entity name="SalesTaxRegionON" type="region">
+        <data key="region">Ontario</data>
+        <data key="region_code">ON</data>
+        <data key="region_id">74</data>
+    </entity>
+    <entity name="CrossBorderSimpleProduct" type="product">
+        <data key="name" unique="suffix">Cross Border Simple Product </data>
+        <data key="sku" unique="suffix">CB_SimpleProduct</data>
+        <data key="urlKey" unique="suffix">simple-product-</data>
+        <data key="type_id">simple</data>
+        <data key="attribute_set_id">4</data>
+        <data key="price">200.00</data>
+        <data key="visibility">4</data>
+        <data key="status">1</data>
+        <data key="quantity">1000</data>
+        <data key="weight">1</data>
+        <requiredEntity type="custom_attribute">AvaTaxCrossBorderValue</requiredEntity>
+        <requiredEntity type="product_extension_attribute">EavStockItem</requiredEntity>
+        <requiredEntity type="custom_attribute_array">CustomAttributeCategoryIds</requiredEntity>
+    </entity>
+    <entity name="CrossBorderDeMinimalSimpleProduct" type="product">
+        <data key="name" unique="suffix">Cross Border Simple Product </data>
+        <data key="sku" unique="suffix">CB_SimpleProduct</data>
+        <data key="urlKey" unique="suffix">simple-product-</data>
+        <data key="type_id">simple</data>
+        <data key="attribute_set_id">4</data>
+        <data key="price">100.00</data>
+        <data key="visibility">4</data>
+        <data key="status">1</data>
+        <data key="quantity">1000</data>
+        <data key="weight">1</data>
+        <requiredEntity type="custom_attribute">AvaTaxCrossBorderValue</requiredEntity>
+        <requiredEntity type="product_extension_attribute">EavStockItem</requiredEntity>
+        <requiredEntity type="custom_attribute_array">CustomAttributeCategoryIds</requiredEntity>
+    </entity>
+    <entity name="AvaTaxCrossBorderValue" type="custom_attribute">
+        <data key="attribute_code">avatax_cross_border_type</data>
+        <data key="value">1</data>
+    </entity>
+    <entity name="AvaTaxCrossBorderMessage" type="custom_attribute">
+        <data key="attribute_code">avatax_cross_border_type</data>
+        <data key="value">1</data>
+    </entity>
+	<!-- cross border US address -->
+    <entity name="Simple_US_Cross_Border_Customer" type="customer">
+        <data key="group_id">1</data>
+        <data key="default_billing">true</data>
+        <data key="default_shipping">true</data>
+        <data key="email" unique="prefix">John.Doe@yopmail.com</data>
+        <data key="firstname">Johndsa</data>
+        <data key="lastname">Doe</data>
+        <data key="fullname">John Doe</data>
+        <data key="password">pwdTest123!</data>
+        <data key="store_id">0</data>
+        <data key="website_id">0</data>
+        <data key="group">General</data>
+        <requiredEntity type="address">Cross_Border_USAddress</requiredEntity>
+    </entity>
+    <entity name="Cross_Border_USAddress" type="address">
+        <data key="firstname">John</data>
+        <data key="lastname">Doe</data>
+        <data key="company">Magento</data>
+        <array key="street">
+            <item>900 winslow way E</item>
+        </array>
+        <data key="city">KITSAP</data>
+        <data key="country_id">US</data>
+        <data key="country">United States</data>
+        <data key="state">Washington</data>
+        <data key="postcode">98110-2450</data>
+        <data key="telephone">512-345-6789</data>
+        <data key="default_billing">Yes</data>
+        <data key="default_shipping">Yes</data>
+        <requiredEntity type="region">SalesTaxRegionWA</requiredEntity>
+    </entity>
+    <entity name="SalesTaxRegionWA" type="region">
+        <data key="region">Washington</data>
+        <data key="region_code">WA</data>
+        <data key="region_id">62</data>
+    </entity>
+</entities>

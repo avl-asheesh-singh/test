@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+         <section name="TaxExemptionBusinessInformationSection">
+                <element name="taxInfoIframe" type="text" selector="#gencert_iframe"/>
+                <element name="taxInfoIframe2" type="text" selector="//div[@class='cert-capture-sdk-view']//iframe[@id='gencert_iframe']"/>          
+                <element name="saveAndContinueBtn" type="button" selector="//button[@id='go_btn' and contains(text(), 'Save and Continue')]"/>
+                <element name="nameOfShipper" type="input" selector="//input[@id='Shipper name']"/>
+                <element name="descriptionOfPropertyToBePurchased" type="input" selector="//input[@id='Description of property to be purchased']"/>
+
+         </section>
+</sections>

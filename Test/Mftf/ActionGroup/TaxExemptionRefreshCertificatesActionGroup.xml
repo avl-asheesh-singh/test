@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="TaxExemptionRefreshCertificatesActionGroup">
+        <annotations>
+            <description>Waits till certificate is created for customer</description>
+        </annotations>
+        
+        <waitForPageLoad time="60" stepKey="wait5678"/>      
+        <waitForElement selector="{{TaxExemptionRefreshCertificatesSection.completeCtrl}}" stepKey="waitCompleteCtrl"/> 
+        
+        <!-- Clicks on Close button-->
+        <click selector="{{TaxExemptionRefreshCertificatesSection.closeBtn}}" stepKey="clickCloseBtn"/>
+       
+    </actionGroup>
+</actionGroups>

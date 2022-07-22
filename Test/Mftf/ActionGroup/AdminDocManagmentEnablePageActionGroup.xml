@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminDocManagmentEnablePageActionGroup">	
+		<annotations>
+            <description>Goes to the AvaTa Config page and Enables Document Management.</description>
+        </annotations>
+        <conditionalClick stepKey="expandAvaTaxDocManagmentOptions" selector="{{SalesTaxConfigSection.AvaTaxDocManagmentOptions}}" dependentSelector="{{SalesTaxConfigSection.CheckIfDocManagmentTabExpand}}" visible="true" />
+        <waitForElementVisible selector="{{SalesTaxConfigSection.EnableDocumentManagement}}" stepKey="waitForDocManagmentDropdown1" />
+        <selectOption selector="{{SalesTaxConfigSection.EnableDocumentManagement}}" userInput="Yes" stepKey="selectOption1"/>
+        <click selector="{{SalesTaxConfigSection.AvaTaxDocManagmentOptions}}" stepKey="collapseDocManagmentOptions" />
+        <click selector="{{SalesTaxConfigSection.Save}}" stepKey="saveConfig" />
+    </actionGroup>
+  
+    </actionGroups>

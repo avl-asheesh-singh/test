@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+     <test name="TaxCalculationWithSingleLineTest">
+        <annotations>
+            <features value="Tax calculation"/>
+            <stories value="Tax Calculations"/>
+            <title value="Tax calculation with single line item | Owner Name : Nikita Torane"/>
+            <description value="Should be able to calculate tax with single line item."/>
+            <severity value="MAJOR"/>
+            <testCaseId value="C3842211"/>
+            <group value="avatax_tax_calculation"/>
+            
+        </annotations>
+
+         <before>
+            <createData entity="SimpleSubCategory" stepKey="createCategory"/>
+            <createData entity="CrossBorderSimpleProduct" stepKey="createSimpleProduct">
+                <requiredEntity createDataKey="createCategory"/>
+            </createData>            
+            <createData entity="Simple_US_Cross_Border_Customer" stepKey="createCustomer"/>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
+            <comment userInput="Adding the comment to replace CliIndexerReindexActionGroup action group ('indexer:reindex' commands) for preserving Backward Compatibility" stepKey="reindex"/>
+        </before>
+
+        
+        <after>
+            <actionGroup ref="StorefrontCustomerLogoutActionGroup" stepKey="logoutStorefront"/>
+            <deleteData createDataKey="createSimpleProduct" stepKey="deleteSimpleProduct"/>
+            <deleteData createDataKey="createCategory" stepKey="deleteSimpleCategory"/>
+            <deleteData createDataKey="createCustomer" stepKey="deleteUsCustomer"/>
+         </after>
+
+        
+        <actionGroup ref="LoginToStorefrontActionGroup" stepKey="storefrontCustomerLogin">
+            <argument name="Customer" value="$$createCustomer$$"/>
+        </actionGroup>
+
+        <actionGroup ref="StorefrontNavigateCategoryPageActionGroup" stepKey="navigateToCategoryPage">
+            <argument name="category" value="$$createCategory$$"/>
+        </actionGroup>
+
+        <waitForPageLoad stepKey="waitForCatalogPageLoad"/>
+
+        
+           <!-- Add product to the cart -->
+        <actionGroup ref="SimpleStorefrontAddCategoryProductToCartActionGroup" stepKey="addProductToCart">
+            <argument name="product" value="$$createSimpleProduct$$"/>
+            <argument name="productCount" value="CONST.one"/>
+        </actionGroup>
+
+           <!--Open View and edit -->
+        <actionGroup ref="ClickViewAndEditCartFromMiniCartActionGroup" stepKey="openCartFromMiniCart"/>
+
+        <!-- Fill the Estimate Shipping and Tax section -->
+        <actionGroup ref="SimpleStorefrontCartEstimateShippingAndTaxActionGroup" stepKey="fillEstimateShippingAndTaxFields"/>
+        <actionGroup ref="CheckoutSelectFlatRateShippingMethodActionGroup" stepKey="selectFlatRate"/>
+
+         <!-- Click on "New Address" button -->
+        <actionGroup ref="StorefrontClickAddNewAddressButtonFromCheckoutShippingActionGroup" stepKey="clickAddAddressButton"/>
+        
+         <!-- Clear the checkout address popup fields -->
+        <actionGroup ref="clearCheckoutAddressPopupFieldsActionGroup" stepKey="clearCheckoutAddressPopupFields"/>
+
+          <!-- fill the checkout address popup fields -->
+        <actionGroup ref="LoggedInUserCheckoutFillCAShippingSectionActionGroup" stepKey="fillCheckoutAddressPopupFields"/> 
+        <see selector="{{StorefrontAvaTaxCheckoutOrderSummarySection.Tax}}" userInput="Tax" stepKey="seeTaxInOrderSummary"/>
+       
+        <!-- Click on "Place Order" button on "Review and Payments" Page -->
+        <actionGroup ref="CheckoutPlaceOrderActionGroup" stepKey="clickOnPlaceOrder">
+            <argument name="orderNumberMessage" value="CONST.successCheckoutOrderNumberMessage"/>
+            <argument name="emailYouMessage" value="CONST.successCheckoutEmailYouMessage"/> 
+        </actionGroup> 
+
+        <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="orderNumber"/>
+
+    </test>
+    </tests>

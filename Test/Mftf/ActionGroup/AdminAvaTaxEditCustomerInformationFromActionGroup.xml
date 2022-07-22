@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <!-- Edit Customer Account Information Required Fields in Admin -->
+    <actionGroup name="AdminAvaTaxEditCustomerInformationFromActionGroup">
+        <annotations>
+            <description>Select the Customer Group. Clicks on Save and Continue.</description>
+        </annotations>
+        <arguments>
+            <argument name="groupName" type="string"/>
+        </arguments>
+
+        <click selector="{{AdminCustomerAccountInformationSection.accountInformationTab}}" stepKey="goToAccountInformation"/>
+        <selectOption selector="{{AdminCustomerAccountInformationSection.group}}" userInput="{{groupName}}" stepKey="selectCustomerGroup"/>
+        <click selector="{{AdminCustomerMainActionsSection.saveAndContinue}}" stepKey="saveAndContinue"/>
+        <waitForPageLoad stepKey="wait"/>
+        <scrollToTopOfPage stepKey="scrollToTop"/>
+    </actionGroup>
+</actionGroups>

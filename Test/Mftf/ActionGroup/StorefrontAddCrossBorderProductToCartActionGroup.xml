@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="StorefrontAddCrossBorderProductToCartActionGroup">
+        <annotations>
+            <description>Adds the provided Product to the Cart from a Storefront Category page. Validates that the Success Message is present and correct. Validates that the Mini Shopping Cart contains the provided Product Count.</description>
+        </annotations>
+        <arguments>
+            <argument name="product"/>
+            <argument name="productCount"/>
+        </arguments>
+
+        <moveMouseOver selector="{{StorefrontCategoryProductSection.ProductInfoByName(product.name)}}" stepKey="moveMouseOverProduct"/>
+        <click selector="{{StorefrontCategoryProductSection.ProductAddToCartByName(product.name)}}" stepKey="clickAddToCart"/>
+    </actionGroup>
+</actionGroups>
